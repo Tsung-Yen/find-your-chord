@@ -1,0 +1,201 @@
+body{
+    margin:0px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+nav{
+    margin:0 auto;
+    height: 65px;
+    display: flex;
+    align-items: center;
+    z-index: 997;
+    position: sticky;
+    top:0px;
+    background: rgb(43, 159, 226);
+}
+.navbar-header{
+    flex: none;
+    width: 265px;
+    font-size: 35px;
+    font-weight: 500;
+    color: rgb(94, 91, 91);
+    text-indent: 8%;
+    cursor:pointer;
+}
+.navbar-nav{
+    margin-left:20px;
+    display: flex;
+    list-style-type: none;
+}
+.navbar-nav>.item{
+    flex: none;
+    font-size: 21px;
+    font-weight: 600;
+    font-style: normal;
+    width:130px;
+    cursor:pointer;
+}
+.navbar-nav a{
+    color: rgb(94, 91, 91);
+    text-decoration: none;
+}
+.sign{
+    position: absolute;
+    right:1%;
+    top:19px;
+    flex: none;
+    font-size: 21px;
+    font-weight: 600;
+    color: rgb(94, 91, 91);
+    cursor:pointer;
+    /* background-color: chocolate; */
+}
+/* .container{
+    background: red;
+} */
+/*搜尋系統*/
+.container>.instant-search{
+    position: absolute;
+    top:8%;
+    left:25%;
+    width:380px;
+    /* background-color: cadetblue; */
+}
+.chord-search{
+    font-size: 35px;
+    font-weight: 600;
+    color: rgb(94, 91, 91);
+}
+.instant-search>.instant-search-insert{
+    margin-top: 25px;
+    display: inline-flex;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
+    background: #eeeeee;
+}
+.instant-search-insert>.search-spot{
+    flex-grow: 1;
+    border:none;
+    outline:none;
+    width:100%;
+    font-size: 16px;
+    padding: 0 7px;
+    background: transparent;
+}
+.instant-search-insert>.search-button{
+    margin-right: -24px;
+    width:65px;
+    border: none;
+    z-index:996;
+    opacity: 0;
+    cursor: pointer;
+}
+.search-png{
+    width:25px;
+    height:25px;
+    position:relative;
+    top:7px;
+    right:4%;
+}
+.instant-search-result-container{
+    height:250px;
+    overflow-y: auto;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    /* display: none; */
+}
+.instant-search-result-container li a {
+    border: 1px solid #ddd;
+    margin-top: -1px; /* Prevent double borders */
+    background-color: #f6f6f6;
+    padding: 10px;
+    text-decoration: none;
+    font-size: 15px;
+    color: black;
+    display: block
+}
+.instant-search-result-container li a:hover:not(.header){
+    background: #eee;
+}
+/* 圖片方格(圖片加上文字資訊外框) */
+.container>.part{
+    margin: 0 auto;
+    width:1200px;
+    margin-top:170px;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    /* background: red;  */
+}
+.part>.item{
+    flex:none;
+    margin: 20px;
+    width:306px;
+    height:300px;
+    text-align: center;
+    justify-content: center;
+    /*Border*/
+    /* border:solid rgb(216, 206, 206);
+    border-width:2px; */
+    /* background-color:rgb(227, 230, 226); */
+}
+img{
+    width:200px;
+    height:200px;
+    margin-bottom:15px;
+}
+.item>.item-name{
+    font-size:20px;
+    margin-top: -13px;
+    color:rgb(88, 85, 85);
+    font-weight:600;
+    /* background: chartreuse; */
+   
+}
+.sound-box{
+    display: flex;
+    margin-top: 10px;
+    justify-content: center;
+}
+.audio-quick{
+    width: 120px;
+    flex: none;
+    font-size: 20px;
+    color:rgb(156, 150, 150);
+    font-weight:400;
+    cursor: pointer;
+}
+.audio-slow{
+    width: 120px;
+    flex: none;
+    font-size: 20px;
+    color:rgb(156, 150, 150);
+    font-weight:400;
+    cursor: pointer;
+}
+.audio-button{
+    position: relative;
+    left:6px;
+    top:20px;
+    width:25px;
+    height:25px;
+}
+
+.empty{
+    margin: 0 auto;
+    width:auto;
+    height:584px;
+}
+/*copyright最下半部*/
+footer{
+    /* margin-top:20px; */
+    margin: 0 auto;
+    text-align:center;
+    padding:30px;
+    font-size:16px;
+    color:white;
+    background-color: #757575;
+    position: sticky;
+    bottom: 0px;
+}

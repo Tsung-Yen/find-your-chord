@@ -7,11 +7,7 @@ app.use("/static",express.static("public"));
 //連接mysql DB
 let mysql = require("mysql");
 let pool = mysql.createPool({
-    connectionLimit : 3,
-    host            : "yan-free-version.cv7r0cgdkgoj.us-east-2.rds.amazonaws.com",
-    user            : "Yanxr",
-    password        : "Bk55687ee1",
-    database        : "guitarchord"
+    
 })
 
 app.get("/",(req,res)=>{
@@ -19,8 +15,26 @@ app.get("/",(req,res)=>{
 });
 
 app.get("/api/library/:chord",(req,res)=>{
-    //取得搜尋和弦
+    //1.取得搜尋和弦(對資料做處理)
     let chord = req.params.chord;
+    //輸入大寫M需轉換為maj再進資料庫搜尋
+    if(chord.includes("M")){
+        if(chord[chord.length -1] == "M"){
+            chord = chord.replace("M","")
+        }else{
+            chord = chord.replace("M7","maj7").replace("M9","maj9")
+            .replace("M11","maj11").replace("M13","maj13");
+        }
+    }
+    //輸入包含#則需替換為sharp
+    if(chord.includes("#")){
+        chord.replace("#","sharp");
+    }
+    //輸入包含+則需替換為plus
+    if(chord.includes("+")){
+        chord.replace("+","plus");
+    }
+
     let jsonData = {
         "type":"null",
         "data":[]
@@ -36,7 +50,7 @@ app.get("/api/library/:chord",(req,res)=>{
                 let chordName = result[i]["chord"];
                 let image = result[i]["image"];
                 let quickSound = result[i]["quicksound"];
-                let slowSound = result[i]["slowSound"];
+                let slowSound = result[i]["slowsound"];
                 let data = {
                     "id":id,
                     "type":type,
@@ -120,6 +134,37 @@ app.get("/api/classify/:page",(req,res)=>{
     });
 });
 
+app.get("/api/search",(req,res)=>{
+    let jsonData = []
+    let tempList = []
+    let sql = "select * from chordlibrary";
+    pool.query(sql,(err,result,fields)=>{
+        if (err) throw err;
+        if (result && result != ""){
+            for(let i=0;i<result.length;i++){
+                let chordName = result[i]["chord"];
+                tempList.push(chordName);
+            }
+            function removeDuplicates(data){
+                return [...new Set(data)]
+            }
+            tempList = removeDuplicates(tempList);
+            for(let i=0;i<tempList.length;i++){
+                let data = {
+                    "chord":tempList[i]
+                }
+                jsonData.push(data)
+            }
+        }else{
+            jsonData = {
+                "error":true,
+                "message":"伺服器錯誤"
+            }
+        }
+        
+        res.send(jsonData);
+    });
+});
 app.listen(3000,()=>{
     console.log("Server Started");
 });
