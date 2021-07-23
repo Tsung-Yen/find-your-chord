@@ -5,9 +5,16 @@ app.use(express.static("file"));
 app.use("/static",express.static("public"));
 
 //連接mysql DB
+require("dotenv").config();
 let mysql = require("mysql");
 let pool = mysql.createPool({
-    
+    connectionLimit     : 4,
+    host                : process.env["DB_HOST"],
+    user                : process.env["DB_USER"],
+    password            : process.env["DB_PASSWORD"],
+    database            : process.env["DB_NAME"],
+    waitForConnections  : true,
+    connectionLimit     : 5
 })
 
 app.get("/",(req,res)=>{
@@ -27,13 +34,11 @@ app.get("/api/library/:chord",(req,res)=>{
         }
     }
     //輸入包含#則需替換為sharp
-    if(chord.includes("#")){
-        chord.replace("#","sharp");
-    }
+    chord = chord.replace("%23","sharp");
     //輸入包含+則需替換為plus
-    if(chord.includes("+")){
-        chord.replace("+","plus");
-    }
+    chord = chord.replace("+","aug");
+    
+    console.log(chord)
 
     let jsonData = {
         "type":"null",
@@ -150,8 +155,9 @@ app.get("/api/search",(req,res)=>{
             }
             tempList = removeDuplicates(tempList);
             for(let i=0;i<tempList.length;i++){
+                let fixData = tempList[i].replace("sharp","#");
                 let data = {
-                    "chord":tempList[i]
+                    "chord":fixData
                 }
                 jsonData.push(data)
             }

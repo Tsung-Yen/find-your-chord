@@ -26,6 +26,9 @@ function showResultContainer(){
 //呼叫api(並串上資料)
 function callApi(value){
     if(value != null){
+        if(value.includes("#") == true){
+            value = value.replace("#","sharp");
+        }
         let container = document.querySelector(".part");
         container.innerHTML = ""; 
         let api_url = "/api/library/"+value;
@@ -103,14 +106,6 @@ function searchBarRecoomand(){
                 searchString = searchString.replace("M7","maj7").replace("M9","maj9")
                 .replace("M11","maj11").replace("M13","maj13");
             }
-        }
-        //輸入包含#則需替換為sharp
-        if(chord.includes("#")){
-            chord.replace("#","sharp");
-        }
-        //輸入包含+則需替換為plus
-        if(chord.includes("+")){
-            chord.replace("+","plus");
         }
         let filterChords = dbAllData.filter((chords)=>{
             return chords.chord.includes(searchString);
