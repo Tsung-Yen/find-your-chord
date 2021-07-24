@@ -49,3 +49,16 @@ nav{
     cursor:pointer;
     /* background-color: chocolate; */
 }
+.container{
+    width:1200px;
+    margin:0 auto;
+    /* background: red; */
+}
+ul{
+    list-style-type:none;
+    
+}
+li a{
+    text-decoration:none;
+    color:rgb(89, 113, 187);
+}
