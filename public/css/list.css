@@ -49,3 +49,46 @@ nav{
     cursor:pointer;
     /* background-color: chocolate; */
 }
+.container{
+    margin: 0 auto;
+    width:1000px;
+}
+.loading{
+    margin:0 auto;
+    width:600px;
+    height:600px;
+}
+ul{
+    list-style-type:none;
+}
+li{
+    margin-top: 4px;
+}
+li a{
+    text-decoration:none;
+    cursor: pointer;
+}
+.back-button{
+    margin-top: 40px;
+    margin-left:2%;
+    width:120px;
+    display: flex;
+    justify-content: center;
+    background: rgb(76, 109, 170);
+    cursor:pointer;
+}
+.back-text{
+    font-size: 15px;
+    font-weight: 800px;
+    color: white;
+}
+
+/*RWD*/
+@media(max-width:1200px){
+    .nav{
+        width: 90%;
+    }
+    .container{
+        width:90%;
+    }
+}
