@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>首頁</title>
+        <link rel="stylesheet" href="static/css/list.css" type="text/css">
+    </head>
+    <body id="body"> 
+        <nav>
+            <div class="navbar-header">Find Your Chord</div>
+            <div class="navbar-menu">
+                <ul class="navbar-nav">
+                    <li class="item">
+                        <a id="search-chord-page" href="#">搜尋和弦</a>
+                    </li>
+                    <li id="guitar-model" class="item">
+                        <a href="#">指板搜尋</a>
+                    </li>
+                    <li id="chord-dictionary" class="item">
+                        <a href="#">和弦字典</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="sign" id="signing">登入/註冊</div>
+        </nav>
+        <div class="container">
+            <h2 class="chord-title"></h2>
+            <img id="loading" src="image/loading.gif">
+            <ul id="chord-ul"></ul>
+            <div class="back-button">
+                <p class="back-text">回到和弦分類</p>
+            </div>
+        </div>
+        <script src="static/js/list.js"></script>
+    </body>
+</html>

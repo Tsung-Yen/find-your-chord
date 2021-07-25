@@ -8,11 +8,16 @@ import boto3
 import mysql.connector
 from mysql.connector import errors
 from mysql.connector import pooling
-
+import os 
+from dotenv import load_dotenv
+load_dotenv()
 
 #mysql db connection pool
 dbconfig = {
-    
+    "host":os.getenv("DB_HOST"),
+	"user":os.getenv("DB_USER"),
+	"password":os.getenv("DB_PASSWORD"),
+	"database":os.getenv("DB_NAME")
 }
 
 class MySQLPool(object):
@@ -20,9 +25,9 @@ class MySQLPool(object):
     create a pool when connect mysql, which will decrease the time spent in 
     request connection, create connection and close connection.
     """
-    def __init__(self, host="",
-                port="", user="",
-				password="", database="guitarchord", pool_name="mypool",
+    def __init__(self, host=os.getenv("DB_HOST"),
+                port="3306", user=os.getenv("DB_USER"),
+				password=os.getenv("DB_PASSWORD"), database=os.getenv("DB_NAME"), pool_name="mypool",
 				pool_size=3):
         res = {}
         self._host = host
@@ -130,7 +135,7 @@ def simulateUser(url):
 chordType = []
 chordDicName = []
 typeName = [
-
+    
 ]
 chordName = []
 chordList = []
@@ -142,7 +147,15 @@ allData = chordLabelRoot.find_all("li")
 for i in range(26,len(allData)):
     chordType.append("https://jguitar.com"+allData[i].a["href"])
 
-#過濾多餘的標題名稱
+#過濾多餘的標題名稱(重複的標題)
+del chordType[12] #7th                  #check
+del chordType[27] #6th                  #check
+del chordType[32] #9th                  #check
+del chordType[42] #11th                 #check
+del chordType[47] #13th                 #check
+del chordType[51] #7th+Sispended+2nd    #check
+del chordType[61] #5th                  #check
+
 
 #取得連結中的所有和弦
 for x in range(len(chordType)):
@@ -156,9 +169,10 @@ for i in chordList:
     finalChordName.append(i.replace(" chord",""))
 
 
+
 name = []
 for i in finalChordName:
-    name.append(i.replace("#","%23"))
+    name.append(i.replace("#","%23").replace("#","%23").replace("+","aug").replace("+","aug"))
 
 
 pool = MySQLPool(**dbconfig)

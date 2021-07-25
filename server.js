@@ -28,6 +28,10 @@ app.get("/dictionary",(req,res)=>{
     res.sendFile(__dirname + "/public/dictionary.html");
 });
 
+app.get("/list",(req,res)=>{
+    res.sendFile(__dirname + "/public/list.html");
+});
+
 app.get("/api/library/:chord",(req,res)=>{
     //1.取得搜尋和弦(對資料做處理)
     let chord = req.params.chord;
@@ -85,104 +89,39 @@ app.get("/api/library/:chord",(req,res)=>{
     });
 });
 
-app.get("/api/classify/:page",(req,res)=>{
-    let page = req.params.page;
+app.get("/api/classify/",(req,res)=>{
     let type = req.query["type"];
     let chord = req.query["chord"];
-    let jsonData = {
-        "type":"null",
-        "maxpage":"null",
-        "nextpage":"null",
-        "data":[]
+    let jsonData = {};
+    function removeDuplicates(data){   //將不同和弦但相同數量組成因音的和弦變成一個
+        return [...new Set(data)];
     }
     //串接分類API標籤(非單一)
-    if(type != null && chord != null && page == null){
-        let sql = "select * from chordlibrary where type = "+"'"+type+"'"+" and chord = "+"'"+chord+"'";
+    if(type != null && chord == null){
+        let sql = "select * from chordlibrary where type = "+"'"+type+"'";
         pool.getConnection((err,connection)=>{
             connection.query(sql,(err,result,fields)=>{
                 if (err) throw err;
-                if(result && result != ""){
-                    function removeDuplicates(data){        //將不同和弦但相同數量組成因音的和弦變成一個
-                        return [...new Set(data)]
+                if((result) && result != ""){
+                    let resultLength = result.length;
+                    let unFiltList = []
+                    for(let i=0;i<resultLength;i++){
+                        unFiltList.push(result[i]["chord"].replace("sharp","#")
+                        .replace("sharp","#").replace("aug","+").replace("aug","+"));
                     }
-                    let filtList = []
-                    for(let i=0;i<result.length;i++){
-                        let chord = result[i]["chord"];
-                    }
-                    for(let i=0;i<result.length;i++){
-                        let id = result[i]["id"];
-                        let type = result[i]["type"];
-                        let chordName = result[i]["chord"];
-                        let image = result[i]["image"];
-                        let quickSound = result[i]["quicksound"];
-                        let slowSound = result[i]["slowSound"];
-                        let data = {
-                            "id":id,
-                            "type":type,
-                            "chord":chordName,
-                            "image":image,
-                            "quicksound":quickSound,
-                            "slowsound":slowSound
-                        }
-                        jsonData["type"] = type;
-                        jsonData["data"].push(data);
+                    let filtData = removeDuplicates(unFiltList);
+                    jsonData = filtData;
+                    connection.release();
+                }else{
+                    jsonData = {
+                        "error":true,
+                        "message":"沒有輸入的資料"
                     }
                 }
+                res.send(jsonData);
             });
         });
     }
-    
-    pool.query(sql,(err,result,fields)=>{
-        if (err) throw err;
-        if(result && result != "" && page != null){
-
-            // let limit = (page-1)*6
-            // let startNum = null;
-            // let endNum = null;
-            // jsonData["maxpage"] = Math.ceil(result.length/6);
-            // if(page <= 1){
-            //     startNum = 0;
-            //     if(result.length > limit){
-            //         endNum = 6;
-            //         jsonData["nextpage"] = Number(page)+1;
-            //     }else{
-            //         endNum = result.length;
-            //     }
-            // }else if(page > 1){
-            //     startNum = limit;
-            //     if(result.length > limit+6){
-            //         endNum = startNum + 6;
-            //         jsonData["nextpage"] = Number(page)+1;
-            //     }else{
-            //         endNum = result.length;
-            //     }
-            // }
-            // for(let i=startNum;i<endNum;i++){
-            //     let id = result[i]["id"];
-            //     let type = result[i]["type"];
-            //     let chordName = result[i]["chord"];
-            //     let image = result[i]["image"];
-            //     let quickSound = result[i]["quicksound"];
-            //     let slowSound = result[i]["slowSound"];
-            //     let data = {
-            //         "id":id,
-            //         "type":type,
-            //         "chord":chordName,
-            //         "image":image,
-            //         "quicksound":quickSound,
-            //         "slowsound":slowSound
-            //     }
-            //     jsonData["type"] = type;
-            //     jsonData["data"].push(data);
-            // }
-        }else{
-            jsonData = {
-                "error":true,
-                "message":"沒有輸入的資料"
-            }
-        }
-        res.send(jsonData);
-    });
 });
 
 app.get("/api/search",(req,res)=>{
