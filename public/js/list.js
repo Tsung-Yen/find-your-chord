@@ -7,13 +7,12 @@ function flagClick(){
         location.href="/search";
     });
     guitarModel.addEventListener("click",()=>{
-        alert("model");
+        location.href="/model";
     });
     chordDictionary.addEventListener("click",()=>{
         location.href="/dictionary";
     });
 }
-
 //取得網址中的訊息(從/dictionary觸發的分類)
 let urlParams = new URLSearchParams(window.location.search);
 let queryString = urlParams.get("type");

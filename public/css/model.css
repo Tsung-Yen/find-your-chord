@@ -50,20 +50,31 @@ nav{
     /* background-color: chocolate; */
 }
 .container{
+    margin: 0 auto;
     width:1200px;
-    margin:0 auto;
 }
-.text{
-    font-weight: 800;
-    color: rgb(180, 179, 179);
+.guitar-model{
+    margin-top: 60px;
+    background: red;
 }
-ul{
-    list-style-type:none;
+.string{
+    padding: 20px;
 }
-li{
-    margin-top: 4px;
+#string-1{
+    background: yellow;
 }
-li a{
-    text-decoration:none;
-    color:black;
+#string-2{
+    background: rgb(255, 0, 0);
+}
+#string-3{
+    background: rgb(0, 4, 255);
+}
+#string-4{
+    background: rgb(0, 255, 34);
+}
+#string-5{
+    background: rgb(112, 14, 107);
+}
+#string-6{
+    background: rgb(122, 53, 7);
 }

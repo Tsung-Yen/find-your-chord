@@ -24,6 +24,10 @@ app.get("/search",(req,res)=>{
     res.sendFile(__dirname + "/public/search.html");
 });
 
+app.get("/model",(req,res)=>{
+    res.sendFile(__dirname + "/public/model.html");
+});
+
 app.get("/dictionary",(req,res)=>{
     res.sendFile(__dirname + "/public/dictionary.html");
 });

@@ -28,7 +28,6 @@ function showResultContainer(){
         instantResultContainer.style.display = "block";
     });
 }
-
 //呼叫api(並串上資料)
 function callApi(value){
     if(value != null){
@@ -136,7 +135,6 @@ function searchBarRecoomand(){
     }
     loadChords();
 
-    
     const displayChords = (chords) => {
         
         const htmlString = chords.map((chords)=>{
@@ -176,7 +174,7 @@ function flagClick(){
         location.href="/search";
     });
     guitarModel.addEventListener("click",()=>{
-        alert("model");
+        location.href="/model";
     });
     chordDictionary.addEventListener("click",()=>{
         location.href="/dictionary";

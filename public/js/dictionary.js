@@ -7,7 +7,7 @@ function flagClick(){
         location.href="/search";
     });
     guitarModel.addEventListener("click",()=>{
-        alert("model");
+        location.href="/model";
     });
     chordDictionary.addEventListener("click",()=>{
         location.href="/dictionary";
