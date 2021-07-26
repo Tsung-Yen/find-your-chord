@@ -55,26 +55,23 @@ nav{
 }
 .guitar-model{
     margin-top: 60px;
-    background: red;
 }
-.string{
-    padding: 20px;
+
+.number>.fretlabels{
+    width:60px;
+    height:35px;
+    background: white;
+    text-align: center;
 }
-#string-1{
-    background: yellow;
+.fretlabels{
+    width:70px;
+    height:35px;
+    background: rgb(189, 154, 90);
+    text-align: center;
 }
-#string-2{
-    background: rgb(255, 0, 0);
-}
-#string-3{
-    background: rgb(0, 4, 255);
-}
-#string-4{
-    background: rgb(0, 255, 34);
-}
-#string-5{
-    background: rgb(112, 14, 107);
-}
-#string-6{
-    background: rgb(122, 53, 7);
+.play-audio{
+    width:70px;
+    height:50px;
+    background: teal;
+    color: white;
 }
