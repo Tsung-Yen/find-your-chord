@@ -1,18 +1,3 @@
-//分類標題(三個頁面都相同)
-function flagClick(){
-    let searchChordPage = document.getElementById("search-chord-page");
-    let guitarModel = document.getElementById("guitar-model");
-    let chordDictionary = document.getElementById("chord-dictionary");
-    searchChordPage.addEventListener("click",()=>{
-        location.href="/search";
-    });
-    guitarModel.addEventListener("click",()=>{
-        location.href="/model";
-    });
-    chordDictionary.addEventListener("click",()=>{
-        location.href="/dictionary";
-    });
-}
 //取得網址中的訊息(從/dictionary觸發的分類)
 let urlParams = new URLSearchParams(window.location.search);
 let queryString = urlParams.get("type");
@@ -58,6 +43,25 @@ function mouse(p1){
     });
     p1.addEventListener("mouseout",()=>{
         p1.style.color = "black";
+    });
+}
+//分類標題(四個個頁面都相同)
+function flagClick(){
+    let searchChordPage = document.getElementById("search-chord-page");
+    let guitarModel = document.getElementById("guitar-model");
+    let chordDictionary = document.getElementById("chord-dictionary");
+    let menberSystem = document.getElementById("signing");
+    searchChordPage.addEventListener("click",()=>{
+        location.href="/search";
+    });
+    guitarModel.addEventListener("click",()=>{
+        location.href="/model";
+    });
+    chordDictionary.addEventListener("click",()=>{
+        location.href="/dictionary";
+    });
+    menberSystem.addEventListener("click",()=>{
+        location.href="/sign";
     });
 }
 
