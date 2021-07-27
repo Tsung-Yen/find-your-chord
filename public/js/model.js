@@ -14,7 +14,12 @@ function clickFret(){
     for(let i=0;i<string_1.length;i++){
         string_1[i].addEventListener("click",()=>{
             s1 = true;
-            changeAudio("+1-"+i.toString()+".m4a",string1_audio);            //點擊琴格載入音檔
+            if(i == 0){
+                string1_audio.src = "#";
+            }else{
+                i = i-1;
+                changeAudio("+1-"+i.toString()+".m4a",string1_audio);            //點擊琴格載入音檔
+            }
         });
     }
     //第二弦
@@ -23,7 +28,12 @@ function clickFret(){
     for(let i=0;i<string_2.length;i++){
         string_2[i].addEventListener("click",()=>{
             s2 = true;
-            changeAudio("+2-"+i.toString()+".m4a",string2_audio);            //點擊琴格載入音檔
+            if(i == 0){
+                string2_audio.src = "#";
+            }else{
+                i = i-1;
+                changeAudio("+2-"+i.toString()+".m4a",string2_audio);            //點擊琴格載入音檔
+            }
         });
     }
     //第三弦
@@ -32,7 +42,12 @@ function clickFret(){
     for(let i=0;i<string_3.length;i++){
         string_3[i].addEventListener("click",()=>{
             s3 = true;
-            changeAudio("+3-"+i.toString()+".m4a",string3_audio);            //點擊琴格載入音檔
+            if(i == 0){
+                string3_audio.src = "#";
+            }else{
+                i = i-1;
+                changeAudio("+3-"+i.toString()+".m4a",string3_audio);            //點擊琴格載入音檔
+            }
         });
     }
     //第四弦
@@ -41,7 +56,12 @@ function clickFret(){
     for(let i=0;i<string_4.length;i++){
         string_4[i].addEventListener("click",()=>{
             s4 = true;
-            changeAudio("+4-"+i.toString()+".m4a",string4_audio);            //點擊琴格載入音檔
+            if(i == 0){
+                string4_audio.src = "#";
+            }else{
+                i = i-1;
+                changeAudio("+4-"+i.toString()+".m4a",string4_audio);            //點擊琴格載入音檔
+            }
         });
     }
     //第五弦
@@ -50,7 +70,12 @@ function clickFret(){
     for(let i=0;i<string_5.length;i++){
         string_5[i].addEventListener("click",()=>{
             s5 = true;
-            changeAudio("+5-"+i.toString()+".m4a",string5_audio);            //點擊琴格載入音檔
+            if(i == 0){
+                string5_audio.src = "#";
+            }else{
+                i = i-1;
+                changeAudio("+5-"+i.toString()+".m4a",string5_audio);            //點擊琴格載入音檔
+            }
         });
     }
     //第六弦
@@ -59,7 +84,12 @@ function clickFret(){
     for(let i=0;i<string_6.length;i++){
         string_6[i].addEventListener("click",()=>{
             s6 = true;
-            changeAudio("+6-"+i.toString()+".m4a",string6_audio);            //點擊琴格載入音檔
+            if(i == 0){
+                string6_audio.src = "#";
+            }else{
+                i = i-1;
+                changeAudio("+6-"+i.toString()+".m4a",string6_audio);            //點擊琴格載入音檔
+            }
         });
     }
     
