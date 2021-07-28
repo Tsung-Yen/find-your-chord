@@ -78,4 +78,9 @@ nav{
     height:50px;
     background: teal;
     color: white;
+    border-radius: 15%;
+    border-style: none;
+}
+.fret{
+    display:none;
 }

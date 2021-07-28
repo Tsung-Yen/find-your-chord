@@ -1,3 +1,4 @@
+const e = require("express");
 let express = require("express");
 let app = express();
 app.use(express.static("public"));
@@ -166,6 +167,61 @@ app.get("/api/search",(req,res)=>{
             res.send(jsonData);
         });
     });
+});
+
+app.post("/api/model",(req,res)=>{
+    if(req.method == "POST"){
+        let string1 = req.body["string1"];
+        let string2 = req.body["string2"];
+        let string3 = req.body["string3"];
+        let string4 = req.body["string4"];
+        let string5 = req.body["string5"];
+        let string6 = req.body["string6"];
+        if(string1 && string2 && string3 && string4 && string5 && string6){
+            let data = [
+                string1,
+                string2,
+                string3,
+                string4,
+                string5,
+                string6
+            ];
+            // console.log("unfiltdata :"+data);
+            for(let i=0;i<data.length;i++){
+                for(let j=data.length-1;j>i;j--){
+                    if(data[i]==data[j] || data[i]=="mute"){
+                        data[i] = "";
+                    }else if(data[j]=="mute"){
+                        data[j] = "";
+                    }
+                }
+            }
+
+            for(let i=0;i<data.length;i++){
+                if(data[i] == ""){
+                    data.splice(i,1)
+                }
+            }
+            let sql = "";
+            for(let i=0;i<data.length;i++){
+                sql = sql+data[i];
+            }
+            console.log(sql);
+            res.send({
+                "ok":true
+            });
+        }else{
+            res.send({
+                "error":true,
+                "message":"弦不得為空值"
+            });
+        }
+    }else{
+        res.send({
+            "error":true,
+            "message":"伺服器錯誤"
+        },400);
+    }
 });
 
 app.post("/api/signin",(req,res)=>{
