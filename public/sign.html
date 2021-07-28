@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>登入會員</title>
+        <link rel="stylesheet" href="static/css/sign.css" type="text/css">
+    </head>
+    <body id="body"> 
+        <nav>
+            <div class="navbar-header">Find Your Chord</div>
+        </nav>
+        <div class="container">
+            <div class="menber-spot">
+                <div class="signinBar">
+                    <div class="signin-title">登入會員</div>
+                    <form id="signin_form" action="#" method="POST">
+                        <input class="menber_input" id="signin_account" type="text" placeholder="請輸入帳號">
+                        <input class="menber_input" id="signin_password" type="password" placeholder="請輸入密碼">
+                        <button class="allbutton" id="signin_button" type="submit">登入</button>
+                    </form>
+                    <div class="signin_result">點此註冊會員</div>
+                </div>
+                <div class="signupBar">
+                    <div class="signup-title">註冊會員</div>
+                    <form id="signup_form" action="#" method="POST">
+                        <input class="menber_input" id="signup_name" type="text" placeholder="新增名稱">
+                        <input class="menber_input" id="signup_account" type="text" placeholder="新增帳號">
+                        <input class="menber_input" id="signup_password" type="password" placeholder="新增密碼">
+                        <button class="allbutton" id="signup_button" type="submit">註冊</button>
+                    </form>
+                    <div class="signup_result">點此登入會員</div>
+                </div>
+            </div>
+        </div>
+        <script src="static/js/sign.js"></script>
+    </body>
+</html>

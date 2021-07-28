@@ -50,20 +50,32 @@ nav{
     /* background-color: chocolate; */
 }
 .container{
+    margin: 0 auto;
     width:1200px;
-    margin:0 auto;
 }
-.text{
-    font-weight: 800;
-    color: rgb(180, 179, 179);
+.guitar-model{
+    margin-top: 60px;
 }
-ul{
-    list-style-type:none;
+
+.number>.fretlabels{
+    width:60px;
+    height:35px;
+    background: white;
+    text-align: center;
 }
-li{
-    margin-top: 4px;
+.mute{
+    font-size: 20px;
+    width:80px;
 }
-li a{
-    text-decoration:none;
-    color:black;
+.fretlabels{
+    width:70px;
+    height:35px;
+    background: rgb(189, 154, 90);
+    text-align: center;
+}
+.play-audio{
+    width:70px;
+    height:50px;
+    background: teal;
+    color: white;
 }

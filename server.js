@@ -3,6 +3,7 @@ let app = express();
 app.use(express.static("public"));
 app.use(express.static("file"));
 app.use("/static",express.static("public"));
+app.use(require('body-parser').json());         //解析來自body的response
 
 //連接mysql DB
 require("dotenv").config();
@@ -24,12 +25,20 @@ app.get("/search",(req,res)=>{
     res.sendFile(__dirname + "/public/search.html");
 });
 
+app.get("/model",(req,res)=>{
+    res.sendFile(__dirname + "/public/model.html");
+});
+
 app.get("/dictionary",(req,res)=>{
     res.sendFile(__dirname + "/public/dictionary.html");
 });
 
 app.get("/list",(req,res)=>{
     res.sendFile(__dirname + "/public/list.html");
+});
+
+app.get("/sign",(req,res)=>{
+    res.sendFile(__dirname + "/public/sign.html");
 });
 
 app.get("/api/library/:chord",(req,res)=>{
@@ -158,6 +167,84 @@ app.get("/api/search",(req,res)=>{
         });
     });
 });
-app.listen(3000,()=>{
+
+app.post("/api/signin",(req,res)=>{
+    let data;
+    if(req.method == "POST"){
+        let account = req.body["account"];
+        let password = req.body["password"];
+        if(account  && password){
+            let sql = "select * from menber where email = "+"'"+account+"'"+" and password = "+"'"+password+"'"+" limit 1";
+            pool.getConnection((err,connection)=>{
+                connection.query(sql,(err,result,fields)=>{
+                    if (err) throw err;
+                    if(result && result != ""){
+                        data = {
+                            "ok":true,
+                            "message":"登入成功"
+                        }
+                    }else{
+                        data = {
+                            "error":true,
+                            "message":"帳號或密碼輸入錯誤"
+                        }
+                    }
+                    connection.release();
+                    res.send(data);
+                });
+            });
+        }else{
+            data = {
+                "error":true,
+                "message":"登入失敗"
+            }
+            res.send(data);
+        }
+    }   
+    
+});
+
+app.post("/api/signup",(req,res)=>{
+    let data;
+    if(req.method == "POST"){
+        let name = req.body["name"];
+        let account = req.body["account"];
+        let password = req.body["password"];
+        if(name && account && password){
+            let sql = "select * from menber where name = "+"'"+name+"'"+" or email = "+"'"+account+"'"+" limit 1"; 
+            pool.getConnection((err,connection)=>{
+                connection.query(sql,(err,result,fields)=>{
+                    if (err) throw err;
+                    if(result && result != ""){
+                        data = {
+                            "err":true,
+                            "message":"帳號已被註冊"
+                        }
+                    }else{
+                        sql = "insert into menber(name,email,password,image) values("+"'"+name+"'"+",'"+account+"'"+",'"+password+"',"+"'"+" "+"'"+")";
+                        connection.query(sql,(err,result,fields)=>{
+                            if (err) throw err; 
+                        });
+                        connection.commit();
+                        data = {
+                            "ok":true,
+                            "message":"註冊成功"
+                        }
+                    }
+                    connection.release();
+                    res.send(data);
+                });
+            });
+        }else{
+            data = {
+                "error":true,
+                "message":"註冊失敗"
+            }
+            res.send(data);
+        }
+    }
+});
+
+app.listen(8000,()=>{
     console.log("Server Started");
 });

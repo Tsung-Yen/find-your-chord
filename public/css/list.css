@@ -58,6 +58,10 @@ nav{
     width:600px;
     height:600px;
 }
+.chord-title{
+    font-weight: 800;
+    color: rgb(180, 179, 179);
+}
 ul{
     list-style-type:none;
 }

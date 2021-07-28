@@ -28,7 +28,6 @@ function showResultContainer(){
         instantResultContainer.style.display = "block";
     });
 }
-
 //呼叫api(並串上資料)
 function callApi(value){
     if(value != null){
@@ -136,7 +135,6 @@ function searchBarRecoomand(){
     }
     loadChords();
 
-    
     const displayChords = (chords) => {
         
         const htmlString = chords.map((chords)=>{
@@ -167,19 +165,23 @@ function searchBarRecoomand(){
         }
     }
 }
-//分類標題(三個頁面都相同)
+//分類標題(四個個頁面都相同)
 function flagClick(){
     let searchChordPage = document.getElementById("search-chord-page");
     let guitarModel = document.getElementById("guitar-model");
     let chordDictionary = document.getElementById("chord-dictionary");
+    let menberSystem = document.getElementById("signing");
     searchChordPage.addEventListener("click",()=>{
         location.href="/search";
     });
     guitarModel.addEventListener("click",()=>{
-        alert("model");
+        location.href="/model";
     });
     chordDictionary.addEventListener("click",()=>{
         location.href="/dictionary";
+    });
+    menberSystem.addEventListener("click",()=>{
+        location.href="/sign";
     });
 }
 //初始化載入

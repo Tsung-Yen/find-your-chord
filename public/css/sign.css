@@ -1,0 +1,118 @@
+body{
+    margin:0px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+nav{
+    margin:0 auto;
+    height: 65px;
+    display: flex;
+    align-items: center;
+    z-index: 997;
+    position: sticky;
+    top:0px;
+    background: rgb(43, 159, 226);
+}
+.navbar-header{
+    flex: none;
+    width: 265px;
+    font-size: 35px;
+    font-weight: 500;
+    color: rgb(255, 255, 255);
+    text-indent: 8%;
+    cursor:pointer;
+}
+.container{
+    width: auto;
+    height:100vh;
+    background-color: black;
+}
+.menber-spot{
+    width:1200px;
+    margin:0 auto;
+}
+/*登入*/
+.signinBar{
+    position: relative;
+    top:120px;
+    margin:0 auto;
+    width:500px;
+    height:320px;
+    text-align: center;
+    background-color: rgb(54, 54, 54);
+    border-radius: 0.5em;
+    border:solid;
+    border-width:1.5px;
+    border-color: rgb(196, 189, 189);
+}
+.signin-title{
+    margin: 0 auto;
+    padding: 10px;
+    font-size: 25px;
+    margin-bottom: -15px;
+    color: white;
+}
+.menber_input{
+    width: 85%;
+    padding: 10px;
+    margin-top: 25px;
+}
+.allbutton{
+    font-size: 18px;
+    color: white;
+    width: 90%;
+    padding: 10px;
+    margin-top: 25px;
+    background-color: rgb(155, 154, 154);
+}
+.signin_result{
+    margin: 0 auto;
+    padding: 10px;
+    margin-top: 25px;
+    color: white;
+    cursor: pointer;
+}
+/*註冊*/
+.signupBar{
+    display: none;
+    position: relative;
+    top:120px;
+    margin:0 auto;
+    width:500px;
+    height:390px;
+    text-align: center;
+    background-color: rgb(54, 54, 54);
+    border-radius: 0.5em;
+    border:solid;
+    border-width:1.5px;
+    border-color: rgb(196, 189, 189);
+}
+.signup-title{
+    margin: 0 auto;
+    padding: 10px;
+    font-size: 25px;
+    margin-bottom: -15px;
+    color: white;
+}
+.allbutton{
+    font-size: 18px;
+    color: white;
+    width: 90%;
+    padding: 10px;
+    margin-top: 25px;
+    background-color: rgb(155, 154, 154);
+    cursor: pointer;
+}
+.signup_result{
+    margin: 0 auto;
+    padding: 10px;
+    margin-top: 25px;
+    color: white;
+    cursor: pointer;
+}
+
+
+
+
+
+
+
