@@ -203,7 +203,7 @@ app.post("/api/model",(req,res)=>{
                 }
             }
             let sql = "";
-            for(let i=0;i<data.length;i++){
+            for(let i=data.length-1;i>=0;i--){
                 sql = sql+data[i];
             }
             console.log(sql);
