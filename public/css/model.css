@@ -56,6 +56,24 @@ nav{
 .guitar-model{
     margin-top: 60px;
 }
+.string_1{
+    background-color: rgb(158, 98, 49);
+}
+.string_2{
+    background-color: rgb(150, 95, 51);
+}
+.string_3{
+    background-color: rgb(150, 95, 51);
+}
+.string_4{
+    background-color: rgb(150, 95, 51);
+}
+.string_5{
+    background-color: rgb(150, 95, 51);
+}
+.string_6{
+    background-color: rgb(158, 98, 49);
+}
 
 .number>.fretlabels{
     width:60px;
@@ -73,14 +91,16 @@ nav{
     background: rgb(189, 154, 90);
     text-align: center;
 }
+.chord-result{
+    font-size: 20px;
+    margin-top: 30px;
+}
 .play-audio{
+    margin-top: 60px;
     width:70px;
     height:50px;
     background: teal;
     color: white;
     border-radius: 15%;
     border-style: none;
-}
-.fret{
-    display:none;
 }

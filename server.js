@@ -170,6 +170,7 @@ app.get("/api/search",(req,res)=>{
 });
 
 app.post("/api/model",(req,res)=>{
+    let response;
     if(req.method == "POST"){
         let string1 = req.body["string1"];
         let string2 = req.body["string2"];
@@ -186,7 +187,7 @@ app.post("/api/model",(req,res)=>{
                 string5,
                 string6
             ];
-            // console.log("unfiltdata :"+data);
+            //將靜音的資料及重複的音階過濾
             for(let i=0;i<data.length;i++){
                 for(let j=data.length-1;j>i;j--){
                     if(data[i]==data[j] || data[i]=="mute"){
@@ -196,20 +197,57 @@ app.post("/api/model",(req,res)=>{
                     }
                 }
             }
-
+            //移除過濾後的資料
             for(let i=0;i<data.length;i++){
                 if(data[i] == ""){
                     data.splice(i,1)
                 }
             }
-            let sql = "";
+            let filtData = [];
+            //將根音擺在第一個(在做排序)
             for(let i=data.length-1;i>=0;i--){
-                sql = sql+data[i];
+                if(data[i] != ""){
+                    filtData.push(data[i]);
+                }
             }
-            console.log(sql);
-            res.send({
-                "ok":true
-            });
+            let sqlString = sort(filtData);         //資料庫搜尋關鍵字    
+            let sql = "select chord from model where contain = "+"'"+sqlString+"'"+" limit 1";               
+            pool.getConnection((err,connection)=>{
+                connection.query(sql,(err,result,fields)=>{
+                    if (err) throw err;
+                    if(result && result!=""){
+                        response = {
+                            "ok":true,
+                            "chord":result[0]["chord"]
+                        }
+                    }else{
+                        response = {
+                            "error":true,
+                            "message":"找不到此和弦"
+                        }
+                    }
+                    connection.release();
+                    res.send(response);
+                });
+            });          
+            function sort(list){
+                //將根音保留，數字大的靠右
+                for(let i=1;i<list.length;i++){
+                    for(let j=i+1;j<list.length;j++){
+                        if(list[i] > list[j]){
+                            let store = list[i];
+                            list[i] = list[j];
+                            list[j] = store;
+                        }
+                    }
+                }
+                let sqlString = "";
+                for(let i=0;i<list.length;i++){
+                    sqlString = sqlString + list[i];
+                }
+                return sqlString;
+            }
+            
         }else{
             res.send({
                 "error":true,

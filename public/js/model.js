@@ -121,6 +121,7 @@ function clickFret(){
     }
     //點擊按鍵撥放所有音階
     let playAudio =  () => {
+        let chordResult = document.querySelector(".chord-result");
         let playButton = document.querySelector(".play-audio");
         playButton.addEventListener("click",()=>{
             if(buttonClick == false){
@@ -157,7 +158,11 @@ function clickFret(){
                 {
                     "Content-Type":"application/json"
                 },body:JSON.stringify(data)}).then((res)=>res.json()).then((result)=>{
-                    console.log(result);
+                    if(result["ok"] == true){
+                        chordResult.innerHTML = "搜尋結果 ： "+result["chord"]+" 和弦";
+                    }else{
+                        chordResult.innerHTML = result["message"];
+                    }
                 });
                 
                 //點擊效果及限制使用者連續呼叫
