@@ -51,10 +51,60 @@ nav{
 }
 .container{
     margin: 0 auto;
+    margin-top: 50px;
     width:1200px;
 }
-.guitar-model{
-    margin-top: 60px;
+.module-title{
+    padding: 8px;
+    width:632px;
+    font-size: 22px;
+    font-weight: 500;
+    color: rgb(94, 91, 91);
+    background-color: cadetblue;
+}
+#choose-module{
+    display: none;
+}
+.chord-module{
+    margin: 0 auto;
+    display: flex;
+    justify-content:flex-start;
+}
+.module{
+    flex: none;
+    text-align: center;
+    width:75px;
+    padding: 8px;
+    font-size: 22px;
+    font-weight: 500;
+    color: rgb(94, 91, 91);
+    cursor:pointer;
+    border:0.5px solid;
+}
+.module-container{
+    width: 648px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content:flex-start;
+    background: rgb(179, 178, 177);
+}
+.module-chords{
+    flex: auto;
+    text-align: center;
+    min-width:75px;
+    padding: 8px;
+    font-size: 22px;
+    font-weight: 500;
+    color: rgb(94, 91, 91);
+    cursor:pointer;
+    border:0.5px solid;
+}
+.custom-title{
+    margin-top: 30px;
+    padding: 8px;
+    font-size: 22px;
+    font-weight: 800;
+    color: rgb(94, 91, 91);
 }
 .string_1{
     background-color: rgb(158, 98, 49);
@@ -93,6 +143,8 @@ nav{
 }
 .chord-result{
     font-size: 20px;
+    font-weight: 600;
+    color: rgb(94, 91, 91);
     margin-top: 30px;
 }
 .play-audio{
@@ -103,4 +155,5 @@ nav{
     color: white;
     border-radius: 15%;
     border-style: none;
+    cursor: pointer;
 }

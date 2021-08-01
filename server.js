@@ -169,9 +169,11 @@ app.get("/api/search",(req,res)=>{
     });
 });
 
-app.post("/api/model",(req,res)=>{
+app.all("/api/model",(req,res)=>{
+    let keyword = req.query["keyword"];
+    let chord = req.query["chord"];
     let response;
-    if(req.method == "POST"){
+    if(req.method == "POST" && keyword == null){
         let string1 = req.body["string1"];
         let string2 = req.body["string2"];
         let string3 = req.body["string3"];
@@ -218,12 +220,12 @@ app.post("/api/model",(req,res)=>{
                     if(result && result!=""){
                         response = {
                             "ok":true,
-                            "chord":result[0]["chord"]
+                            "chord":result[0]["chord"].replace("sharp","#")
                         }
                     }else{
                         response = {
                             "error":true,
-                            "message":"找不到此和弦"
+                            "message":"找不到此和弦(是否有靜音非根音的低音)"
                         }
                     }
                     connection.release();
@@ -254,6 +256,62 @@ app.post("/api/model",(req,res)=>{
                 "message":"弦不得為空值"
             });
         }
+    }else if(req.method == "GET" && keyword != null){   //模板和弦選單標題
+        pool.getConnection((err,connection)=>{
+            let sql = "select * from model where chord like"+"'%"+keyword+"%' limit 12";
+            connection.query(sql,(err,result,fields)=>{
+                if (err) throw err;
+                if(result && result!= ""){
+                    response = {
+                        "ok":true,
+                        "data":[]
+                    }
+                    for(let i=0;i<result.length;i++){
+                        let id = result[i]["id"];
+                        let chord = result[i]["chord"].replace("sharp","#");
+                        let contain = result[i]["contain"];
+                        data = {
+                            "id":id,
+                            "chord":chord,
+                            "contain":contain
+                        }
+                        response["data"].push(data);
+                    }
+                    connection.release();
+                }else{
+                    response = {
+                        "error":true,
+                        "message":"沒有此和弦"
+                    }
+                }
+                res.send(response);
+            });
+        });
+    }else if(req.method == "GET" && chord != null){
+        pool.getConnection((err,connection)=>{
+            let sql = "select * from model where chord = "+"'"+chord+"' limit 1";
+            connection.query(sql,(err,result,fields)=>{
+                if (err) throw err;
+                if(result && result != ""){
+                    let id = result[0]["id"];
+                    let chord = result[0]["chord"];
+                    let contain = result[0]["contain"];
+                    response = {
+                        "ok":true,
+                        "id":id,
+                        "chord":chord,
+                        "contain":contain
+                    }
+                }else{
+                    response = {
+                        "err":true,
+                        "message":"沒有此和弦"
+                    }
+                }
+                connection.release();
+                res.send(response);
+            });
+        });
     }else{
         res.send({
             "error":true,

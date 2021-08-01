@@ -24,6 +24,19 @@
         </nav>
         <div class="container">
             <form class="guitar-form">
+                <div class="module-title">1.選擇和弦分類 或 跳到3選擇自訂和弦</div>
+                <div class="chord-module">
+                    <div class="module">C</div>
+                    <div class="module">D</div>
+                    <div class="module">E</div>
+                    <div class="module">F</div>
+                    <div class="module">G</div>
+                    <div class="module">A</div>
+                    <div class="module">B</div>
+                </div>
+                <div class="module-title" id="choose-module">2.請選擇模板和弦</div>
+                <div class="module-container"></div>
+                <div class="custom-title">3.自訂和弦</div>
                 <table class="guitar-model">
                     <tbody>
                         <tr class="number">
@@ -72,10 +85,10 @@
                         </tr>
                         <tr class="string_1">
                             <td class="mute">
-                                <input type="radio" name="string1" class="string1" value="0">
+                                <input type="radio" name="string1" class="string1" value="mute">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string1" class="string1" value="3">
+                                <input type="radio" name="string1" class="string1" value="3" checked="checked">
                             </td>
                             <td class="fretlabels">
                                 <input type="radio" name="string1" class="string1" value="4">
@@ -116,10 +129,10 @@
                         </tr>
                         <tr class="string_2">
                             <td class="mute">
-                                <input type="radio" name="string2" class="string2" value="0">
+                                <input type="radio" name="string2" class="string2" value="mute">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string2" class="string2" value="7">
+                                <input type="radio" name="string2" class="string2" value="7" checked="checked">
                             </td>
                             <td class="fretlabels">
                                 <input type="radio" name="string2" class="string2" value="1">
@@ -160,10 +173,10 @@
                         </tr>
                         <tr class="string_3">
                             <td class="mute">
-                                <input type="radio" name="string3" class="string3" value="0">
+                                <input type="radio" name="string3" class="string3" value="mute">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string3" class="string3" value="5">
+                                <input type="radio" name="string3" class="string3" value="5" checked="checked">
                             </td>
                             <td class="fretlabels">
                                 <input type="radio" name="string3" class="string3" value="5sharp">
@@ -204,10 +217,10 @@
                         </tr>
                         <tr class="string_4">
                             <td class="mute">
-                                <input type="radio" name="string4" class="string4" value="0">
+                                <input type="radio" name="string4" class="string4" value="mute">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string4" class="string4" value="2">
+                                <input type="radio" name="string4" class="string4" value="2" checked="checked">
                             </td>
                             <td class="fretlabels">
                                 <input type="radio" name="string4" class="string4" value="2sharp">
@@ -248,10 +261,10 @@
                         </tr>
                         <tr class="string_5">
                             <td class="mute">
-                                <input type="radio" name="string5" class="string5" value="0">
+                                <input type="radio" name="string5" class="string5" value="mute">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string5" class="string5" value="6">
+                                <input type="radio" name="string5" class="string5" value="6" checked="checked">
                             </td>
                             <td class="fretlabels">
                                 <input type="radio" name="string5" class="string5" value="6sharp">
@@ -292,10 +305,10 @@
                         </tr>
                         <tr class="string_6">
                             <td class="mute">
-                                <input type="radio" name="string6" class="string6" value="0">
+                                <input type="radio" name="string6" class="string6" value="mute">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string6" class="string6" value="3">
+                                <input type="radio" name="string6" class="string6" value="3" checked="checked">
                             </td>
                             <td class="fretlabels">
                                 <input type="radio" name="string6" class="string6" value="4">
