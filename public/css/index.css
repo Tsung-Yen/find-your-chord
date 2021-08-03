@@ -62,34 +62,7 @@ nav{
 .melody-box{
     margin: 0 auto;
 }
-.choose-key{
-    margin: 0 auto;
-    display: flex;
-    justify-content:flex-start;
-    text-align: center;
-    background-color: rgb(79, 206, 168);
-}
-.key-title{
-    flex: none;
-    position: relative;
-    left:10px;
-    padding: 8px;
-    width:110px;
-    font-size: 20px;
-    font-weight: 700;
-    color: rgb(94, 91, 91);
-}
-.key{
-    flex: none;
-    width:140px;
-    padding: 8px;
-    font-size: 22px;
-    font-weight: 500;
-    color: rgb(94, 91, 91);
-    cursor:pointer;
-    border:0.5px solid;
-    border-style: none;
-}
+
 #choose-chord{
     margin: 0 auto;
     display: flex;
@@ -146,12 +119,16 @@ nav{
     border:0.5px solid;
     border-style: none;
 }
-#chord-container{
-    padding:40px;
-    text-align: center;
-    border:1px solid;
-    display: flex;
+.play-box{
+    padding: 20px;
     border: 1px solid;
+    background: #c5c5c5;
+}
+#chord-container{
+    padding:6px;
+    text-align: center;
+    display: flex;
+    border:1px solid;
 }
 .chord.dragging{
     color:rgb(212, 41, 41);
@@ -170,4 +147,19 @@ nav{
     to {
         text-shadow: 0 0 20px #fff, 0 0 30px #3734c7, 0 0 40px #4d8bff, 0 0 50px #179fdf, 0 0 60px #5b9dff, 0 0 70px #0f679b, 0 0 80px #4d9aff;
     }
+}
+.play{
+    color:white;
+    background: red;
+    cursor:pointer;
+}
+.pause{
+    color:white;
+    background: red;
+    cursor:pointer;
+}
+.save{
+    color:white;
+    background: red;
+    cursor:pointer;
 }

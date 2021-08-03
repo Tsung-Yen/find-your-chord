@@ -25,17 +25,7 @@
         <div class="container">
             <h2>創造你的旋律</h2>
             <div class="melody-box">
-                <div class="choose-key">
-                    <div class="key-title">選擇調性：</div>
-                    <div class="key">C key</div>
-                    <div class="key">D key</div>
-                    <div class="key">E key</div>
-                    <div class="key">F key</div>
-                    <div class="key">G key</div>
-                    <div class="key">A key</div>
-                    <div class="key">B key</div>
-                </div>
-                <div class="chord_container" id="choose-chord">
+                <div id="choose-chord">
                     <div class="chord-title" >選擇和弦：</div>
                     <div class="chord" draggable="true">C</div>
                     <div class="chord" draggable="true">Dm</div>
@@ -51,9 +41,19 @@
                     <div class="tempo">刷法1</div>
                     <div class="tempo">刷法2</div>
                 </div>
-                <div class="chord_container" id="chord-container">
-                    <p class="glowing">請拖曳和弦到這裡</p>
+                <div class="play-box">
+                    <div class="chord_container" id="chord-container">
+                        <p class="glowing">請拖曳和弦到這裡</p>
+                        <div id=audio_container></div>
+                    </div>
+                    <hr style="background-color: black; height: 1px;">
+                    <div class="button-container">
+                        <button type="button" class="play">播放</button>
+                        <button type="button" class="pause">暫停</button>
+                        <button type="button" class="save">儲存</button>
+                    </div>
                 </div>
+                
             </div>
         </div>
         <script src="static/js/index.js"></script>

@@ -257,8 +257,12 @@ app.all("/api/model",(req,res)=>{
             });
         }
     }else if(req.method == "GET" && keyword != null){   //模板和弦選單標題
+        let limitNum = 12;
+        if(keyword == "B" || keyword == "E"){
+            limitNum = 6;
+        }
         pool.getConnection((err,connection)=>{
-            let sql = "select * from model where chord like"+"'%"+keyword+"%' limit 12";
+            let sql = "select * from model where chord like"+"'"+keyword+"%' limit "+limitNum;
             connection.query(sql,(err,result,fields)=>{
                 if (err) throw err;
                 if(result && result!= ""){
@@ -289,13 +293,14 @@ app.all("/api/model",(req,res)=>{
         });
     }else if(req.method == "GET" && chord != null){
         pool.getConnection((err,connection)=>{
-            let sql = "select * from model where chord = "+"'"+chord+"' limit 1";
+            let sql = "select * from module where chord = "+"'"+chord+"' limit 1";
             connection.query(sql,(err,result,fields)=>{
                 if (err) throw err;
                 if(result && result != ""){
                     let id = result[0]["id"];
                     let chord = result[0]["chord"];
                     let contain = result[0]["contain"];
+                    contain = contain.split(",");
                     response = {
                         "ok":true,
                         "id":id,
