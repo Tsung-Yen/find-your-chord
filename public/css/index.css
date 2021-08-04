@@ -49,4 +49,137 @@ nav{
     cursor:pointer;
     /* background-color: chocolate; */
 }
+.container{
+    width:1200px;
+    margin: 0 auto;
+}
+.container h2{
+    padding: 10px;
+    font-size: 28px;
+    font-weight: 600;
+    color: rgb(94, 91, 91);
+}
+#refresh{
+    position: relative;
+    top:-63px;
+    left:190px;
+    width:25px;
+    height:25px;
+    cursor: pointer;
+}
+.melody-box{
+    margin: 0 auto;
+}
 
+#choose-chord{
+    margin: 0 auto;
+    display: flex;
+    /* justify-content:flex-start; */
+}
+.chord-title{
+    flex: none;
+    position: relative;
+    left:15px;
+    padding: 8px;
+    width:110px;
+    font-size: 20px;
+    font-weight: 700;
+    color: rgb(94, 91, 91);
+}
+.chord{
+    flex: none;
+    width:150px;
+    padding: 8px;
+    font-size: 22px;
+    text-align: center;
+    font-weight: 500;
+    color: rgb(94, 91, 91);
+    cursor:pointer;
+    border:0.5px solid;
+    border-style: none;
+}
+.cancle{
+    flex:none;
+    width:18px;
+    height:18px;
+    position: relative;
+    left: 60px;
+    top:-8px;
+    display:none;
+}
+.choose-tempo{
+    margin: 0 auto;
+    display: flex;
+    justify-content:flex-start;
+    text-align: center;
+}
+.tempo-title{
+    flex: none;
+    position: relative;
+    left:10px;
+    padding: 8px;
+    width:110px;
+    font-size: 20px;
+    font-weight: 700;
+    color: rgb(94, 91, 91);
+}
+.tempo{
+    flex: none;
+    width:150px;
+    padding: 8px;
+    font-size: 22px;
+    font-weight: 500;
+    color: rgb(94, 91, 91);
+    cursor:pointer;
+    border:0.5px solid;
+    border-style: none;
+}
+.play-box{
+    padding: 20px;
+    border: 1px solid;
+    background: #c5c5c5;
+}
+#chord-container{
+    padding:15px;
+    display: flex;
+    border:1px solid;
+}
+.chord.dragging{
+    color:rgb(212, 41, 41);
+}
+.glowing{
+    margin:0 auto;
+    font-size: 35px;
+    color: #fff;
+    text-align: center;
+    animation: glowing 1s ease-in-out infinite alternate;
+}
+@-webkit-keyframes glowing {
+    from {
+      text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #5011c5, 0 0 40px #11a17d, 0 0 50px #0cc5f3, 0 0 60px #4159df, 0 0 70px #0051e6;
+    }
+    to {
+        text-shadow: 0 0 20px #fff, 0 0 30px #3734c7, 0 0 40px #4d8bff, 0 0 50px #179fdf, 0 0 60px #5b9dff, 0 0 70px #0f679b, 0 0 80px #4d9aff;
+    }
+}
+.play{
+    color:white;
+    cursor:pointer;
+    width:25px;
+    height:25px;
+    margin:5px;
+}
+.pause{
+    color:white;
+    cursor:pointer;
+    width:25px;
+    height:25px;
+    margin:5px;
+}
+.save{
+    color:white;
+    cursor:pointer;
+    width:25px;
+    height:25px;
+    margin:5px;
+}

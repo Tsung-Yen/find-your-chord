@@ -24,6 +24,19 @@
         </nav>
         <div class="container">
             <form class="guitar-form">
+                <div class="module-title">1.選擇和弦分類 或 跳到3選擇自訂和弦</div>
+                <div class="chord-module">
+                    <div class="module">C</div>
+                    <div class="module">D</div>
+                    <div class="module">E</div>
+                    <div class="module">F</div>
+                    <div class="module">G</div>
+                    <div class="module">A</div>
+                    <div class="module">B</div>
+                </div>
+                <div class="module-title" id="choose-module">2.請選擇模板和弦</div>
+                <div class="module-container"></div>
+                <div class="custom-title">3.自訂和弦</div>
                 <table class="guitar-model">
                     <tbody>
                         <tr class="number">
@@ -72,278 +85,279 @@
                         </tr>
                         <tr class="string_1">
                             <td class="mute">
-                                <input type="radio" name="string1" class="string1">
+                                <input type="radio" name="string1" class="string1" value="mute">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string1" class="string1">
+                                <input type="radio" name="string1" class="string1" value="3" checked="checked">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string1" class="string1">
+                                <input type="radio" name="string1" class="string1" value="4">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string1" class="string1">
+                                <input type="radio" name="string1" class="string1" value="4sharp">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string1" class="string1">
+                                <input type="radio" name="string1" class="string1" value="5">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string1" class="string1">
+                                <input type="radio" name="string1" class="string1" value="5sharp">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string1" class="string1">
+                                <input type="radio" name="string1" class="string1" value="6">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string1" class="string1">
+                                <input type="radio" name="string1" class="string1" value="6sharp">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string1" class="string1">
+                                <input type="radio" name="string1" class="string1" value="7">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string1" class="string1">
+                                <input type="radio" name="string1" class="string1" value="1">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string1" class="string1">
+                                <input type="radio" name="string1" class="string1" value="1sharp">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string1" class="string1">
+                                <input type="radio" name="string1" class="string1" value="2">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string1" class="string1">
+                                <input type="radio" name="string1" class="string1" value="2sharp">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string1" class="string1">
+                                <input type="radio" name="string1" class="string1" value="3">
                             </td>
                         </tr>
                         <tr class="string_2">
                             <td class="mute">
-                                <input type="radio" name="string2" class="string2">
+                                <input type="radio" name="string2" class="string2" value="mute">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string2" class="string2">
+                                <input type="radio" name="string2" class="string2" value="7" checked="checked">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string2" class="string2">
+                                <input type="radio" name="string2" class="string2" value="1">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string2" class="string2">
+                                <input type="radio" name="string2" class="string2" value="1sharp">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string2" class="string2">
+                                <input type="radio" name="string2" class="string2" value="2">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string2" class="string2">
+                                <input type="radio" name="string2" class="string2" value="2sharp">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string2" class="string2">
+                                <input type="radio" name="string2" class="string2" value="3">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string2" class="string2">
+                                <input type="radio" name="string2" class="string2" value="4">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string2" class="string2">
+                                <input type="radio" name="string2" class="string2" value="4sharp">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string2" class="string2">
+                                <input type="radio" name="string2" class="string2" value="5">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string2" class="string2">
+                                <input type="radio" name="string2" class="string2" value="5sharp">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string2" class="string2">
+                                <input type="radio" name="string2" class="string2" value="6">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string2" class="string2">
+                                <input type="radio" name="string2" class="string2" value="6sharp">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string2" class="string2">
+                                <input type="radio" name="string2" class="string2" value="7">
                             </td>
                         </tr>
                         <tr class="string_3">
                             <td class="mute">
-                                <input type="radio" name="string3" class="string3">
+                                <input type="radio" name="string3" class="string3" value="mute">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string3" class="string3">
+                                <input type="radio" name="string3" class="string3" value="5" checked="checked">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string3" class="string3">
+                                <input type="radio" name="string3" class="string3" value="5sharp">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string3" class="string3">
+                                <input type="radio" name="string3" class="string3" value="6">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string3" class="string3">
+                                <input type="radio" name="string3" class="string3" value="6sharp"> 
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string3" class="string3">
+                                <input type="radio" name="string3" class="string3" value="7">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string3" class="string3">
+                                <input type="radio" name="string3" class="string3" value="1">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string3" class="string3">
+                                <input type="radio" name="string3" class="string3" value="1sharp">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string3" class="string3">
+                                <input type="radio" name="string3" class="string3" value="2">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string3" class="string3">
+                                <input type="radio" name="string3" class="string3" value="2sharp">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string3" class="string3">
+                                <input type="radio" name="string3" class="string3" value="3">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string3" class="string3">
+                                <input type="radio" name="string3" class="string3" value="4">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string3" class="string3">
+                                <input type="radio" name="string3" class="string3" value="4sharp">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string3" class="string3">
+                                <input type="radio" name="string3" class="string3" value="5">
                             </td>
                         </tr>
                         <tr class="string_4">
                             <td class="mute">
-                                <input type="radio" name="string4" class="string4">
+                                <input type="radio" name="string4" class="string4" value="mute">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string4" class="string4">
+                                <input type="radio" name="string4" class="string4" value="2" checked="checked">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string4" class="string4">
+                                <input type="radio" name="string4" class="string4" value="2sharp">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string4" class="string4">
+                                <input type="radio" name="string4" class="string4" value="3">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string4" class="string4">
+                                <input type="radio" name="string4" class="string4" value="4">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string4" class="string4">
+                                <input type="radio" name="string4" class="string4" value="4sharp">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string4" class="string4">
+                                <input type="radio" name="string4" class="string4" value="5">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string4" class="string4">
+                                <input type="radio" name="string4" class="string4" value="5sharp">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string4" class="string4">
+                                <input type="radio" name="string4" class="string4" value="6">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string4" class="string4">
+                                <input type="radio" name="string4" class="string4" value="6sharp">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string4" class="string4">
+                                <input type="radio" name="string4" class="string4" value="7">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string4" class="string4">
+                                <input type="radio" name="string4" class="string4" value="1">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string4" class="string4">
+                                <input type="radio" name="string4" class="string4" value="1sharp">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string4" class="string4">
+                                <input type="radio" name="string4" class="string4" value="2">
                             </td>
                         </tr>
                         <tr class="string_5">
                             <td class="mute">
-                                <input type="radio" name="string5" class="string5">
+                                <input type="radio" name="string5" class="string5" value="mute">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string5" class="string5">
+                                <input type="radio" name="string5" class="string5" value="6" checked="checked">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string5" class="string5">
+                                <input type="radio" name="string5" class="string5" value="6sharp">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string5" class="string5">
+                                <input type="radio" name="string5" class="string5" value="7">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string5" class="string5">
+                                <input type="radio" name="string5" class="string5" value="1">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string5" class="string5">
+                                <input type="radio" name="string5" class="string5" value="1sharp">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string5" class="string5">
+                                <input type="radio" name="string5" class="string5" value="2">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string5" class="string5">
+                                <input type="radio" name="string5" class="string5" value="2sharp">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string5" class="string5">
+                                <input type="radio" name="string5" class="string5" value="3">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string5" class="string5">
+                                <input type="radio" name="string5" class="string5" value="4">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string5" class="string5">
+                                <input type="radio" name="string5" class="string5" value="4sharp">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string5" class="string5">
+                                <input type="radio" name="string5" class="string5" value="5">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string5" class="string5">
+                                <input type="radio" name="string5" class="string5" value="5sharp"> 
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string5" class="string5">
+                                <input type="radio" name="string5" class="string5" value="6">
                             </td>
                         </tr>
                         <tr class="string_6">
                             <td class="mute">
-                                <input type="radio" name="string6" class="string6">
+                                <input type="radio" name="string6" class="string6" value="mute">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string6" class="string6">
+                                <input type="radio" name="string6" class="string6" value="3" checked="checked">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string6" class="string6">
+                                <input type="radio" name="string6" class="string6" value="4">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string6" class="string6">
+                                <input type="radio" name="string6" class="string6" value="4sharp">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string6" class="string6">
+                                <input type="radio" name="string6" class="string6" value="5">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string6" class="string6">
+                                <input type="radio" name="string6" class="string6" value="5sharp">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string6" class="string6">
+                                <input type="radio" name="string6" class="string6" value="6">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string6" class="string6">
+                                <input type="radio" name="string6" class="string6" value="6sharp">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string6" class="string6">
+                                <input type="radio" name="string6" class="string6" value="7">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string6" class="string6">
+                                <input type="radio" name="string6" class="string6" value="1">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string6" class="string6">
+                                <input type="radio" name="string6" class="string6" value="1sharp">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string6" class="string6">
+                                <input type="radio" name="string6" class="string6" value="2">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string6" class="string6">
+                                <input type="radio" name="string6" class="string6" value="2sharp">
                             </td>
                             <td class="fretlabels">
-                                <input type="radio" name="string6" class="string6">
+                                <input type="radio" name="string6" class="string6" value="3">
                             </td>
                         </tr>
                     </tbody>
                 </table>
                 <div class="audio-container">
-                    <audio id="string1_audio" src="#"></audio>
-                    <audio id="string2_audio"></audio>
-                    <audio id="string3_audio"></audio>
-                    <audio id="string4_audio"></audio>
-                    <audio id="string5_audio"></audio>
-                    <audio id="string6_audio"></audio>
+                    <audio class="audio-play" id="string1_audio" src="#"></audio>
+                    <audio class="audio-play" id="string2_audio"></audio>
+                    <audio class="audio-play" id="string3_audio"></audio>
+                    <audio class="audio-play" id="string4_audio"></audio>
+                    <audio class="audio-play" id="string5_audio"></audio>
+                    <audio class="audio-play" id="string6_audio"></audio>
                 </div>
+                <div class="chord-result"></div>
                 <button type="button" class="play-audio">播放</button>
             </form>
         </div>

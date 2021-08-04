@@ -1,3 +1,4 @@
+const e = require("express");
 let express = require("express");
 let app = express();
 app.use(express.static("public"));
@@ -166,6 +167,162 @@ app.get("/api/search",(req,res)=>{
             res.send(jsonData);
         });
     });
+});
+
+app.all("/api/model",(req,res)=>{
+    let keyword = req.query["keyword"];
+    let chord = req.query["chord"];
+    let response;
+    if(req.method == "POST" && keyword == null){
+        let string1 = req.body["string1"];
+        let string2 = req.body["string2"];
+        let string3 = req.body["string3"];
+        let string4 = req.body["string4"];
+        let string5 = req.body["string5"];
+        let string6 = req.body["string6"];
+        if(string1 && string2 && string3 && string4 && string5 && string6){
+            let data = [
+                string1,
+                string2,
+                string3,
+                string4,
+                string5,
+                string6
+            ];
+            //將靜音的資料及重複的音階過濾
+            for(let i=0;i<data.length;i++){
+                for(let j=data.length-1;j>i;j--){
+                    if(data[i]==data[j] || data[i]=="mute"){
+                        data[i] = "";
+                    }else if(data[j]=="mute"){
+                        data[j] = "";
+                    }
+                }
+            }
+            //移除過濾後的資料
+            for(let i=0;i<data.length;i++){
+                if(data[i] == ""){
+                    data.splice(i,1)
+                }
+            }
+            let filtData = [];
+            //將根音擺在第一個(在做排序)
+            for(let i=data.length-1;i>=0;i--){
+                if(data[i] != ""){
+                    filtData.push(data[i]);
+                }
+            }
+            let sqlString = sort(filtData);         //資料庫搜尋關鍵字    
+            let sql = "select chord from model where contain = "+"'"+sqlString+"'"+" limit 1";               
+            pool.getConnection((err,connection)=>{
+                connection.query(sql,(err,result,fields)=>{
+                    if (err) throw err;
+                    if(result && result!=""){
+                        response = {
+                            "ok":true,
+                            "chord":result[0]["chord"].replace("sharp","#")
+                        }
+                    }else{
+                        response = {
+                            "error":true,
+                            "message":"找不到此和弦(是否有靜音非根音的低音)"
+                        }
+                    }
+                    connection.release();
+                    res.send(response);
+                });
+            });          
+            function sort(list){
+                //將根音保留，數字大的靠右
+                for(let i=1;i<list.length;i++){
+                    for(let j=i+1;j<list.length;j++){
+                        if(list[i] > list[j]){
+                            let store = list[i];
+                            list[i] = list[j];
+                            list[j] = store;
+                        }
+                    }
+                }
+                let sqlString = "";
+                for(let i=0;i<list.length;i++){
+                    sqlString = sqlString + list[i];
+                }
+                return sqlString;
+            }
+            
+        }else{
+            res.send({
+                "error":true,
+                "message":"弦不得為空值"
+            });
+        }
+    }else if(req.method == "GET" && keyword != null){   //模板和弦選單標題
+        let limitNum = 12;
+        if(keyword == "B" || keyword == "E"){
+            limitNum = 6;
+        }
+        pool.getConnection((err,connection)=>{
+            let sql = "select * from model where chord like"+"'"+keyword+"%' limit "+limitNum;
+            connection.query(sql,(err,result,fields)=>{
+                if (err) throw err;
+                if(result && result!= ""){
+                    response = {
+                        "ok":true,
+                        "data":[]
+                    }
+                    for(let i=0;i<result.length;i++){
+                        let id = result[i]["id"];
+                        let chord = result[i]["chord"].replace("sharp","#");
+                        let contain = result[i]["contain"];
+                        data = {
+                            "id":id,
+                            "chord":chord,
+                            "contain":contain
+                        }
+                        response["data"].push(data);
+                    }
+                    connection.release();
+                }else{
+                    response = {
+                        "error":true,
+                        "message":"沒有此和弦"
+                    }
+                }
+                res.send(response);
+            });
+        });
+    }else if(req.method == "GET" && chord != null){
+        pool.getConnection((err,connection)=>{
+            let sql = "select * from module where chord = "+"'"+chord+"' limit 1";
+            connection.query(sql,(err,result,fields)=>{
+                if (err) throw err;
+                if(result && result != ""){
+                    let id = result[0]["id"];
+                    let chord = result[0]["chord"];
+                    let contain = result[0]["contain"];
+                    contain = contain.split(",");
+                    response = {
+                        "ok":true,
+                        "id":id,
+                        "chord":chord,
+                        "contain":contain
+                    }
+                }else{
+                    response = {
+                        "err":true,
+                        "message":"沒有此和弦"
+                    }
+                }
+                connection.release();
+                res.send(response);
+            });
+        });
+    }else{
+        res.send({
+            "error":true,
+            "message":"伺服器錯誤"
+        },400);
+    }
 });
 
 app.post("/api/signin",(req,res)=>{
