@@ -21,53 +21,59 @@ function dragChord(){
             if(draggable.innerText == "C" && dragHistory["C"] == null){
                 dragHistory["C"] = true;
                 let audio = document.createElement("audio");
-                let existAudio = document.querySelectorAll(".audio");
                 audio.className = "audio";
                 audio.innerText = draggable.innerText;
                 draggable.appendChild(audio);
+                //移除和弦按鈕顯現
+                document.getElementById("C").style.display = "initial";
                 playAudio();
             }else if(draggable.innerText == "Dm" && dragHistory["Dm"] == null){
                 dragHistory["Dm"] = true;
                 let audio = document.createElement("audio");
-                let existAudio = document.querySelectorAll(".audio");
                 audio.className = "audio";
                 audio.innerText = draggable.innerText;
                 draggable.appendChild(audio);
+                //移除和弦按鈕顯現
+                document.getElementById("Dm").style.display = "initial";
                 playAudio();
             }else if(draggable.innerText == "Em" && dragHistory["Em"] == null){
                 dragHistory["Em"] = true;
                 let audio = document.createElement("audio");
-                let existAudio = document.querySelectorAll(".audio");
                 audio.className = "audio";
                 audio.innerText = draggable.innerText;
                 draggable.appendChild(audio);
+                //移除和弦按鈕顯現
+                document.getElementById("Em").style.display = "initial";
                 playAudio();
             }else if(draggable.innerText == "F" && dragHistory["F"] == null){
                 dragHistory["F"] = true;
                 let audio = document.createElement("audio");
-                let existAudio = document.querySelectorAll(".audio");
                 audio.className = "audio";
                 audio.innerText = draggable.innerText;
                 draggable.appendChild(audio);
+                //移除和弦按鈕顯現
+                document.getElementById("F").style.display = "initial";
                 playAudio();
             }else if(draggable.innerText == "G" && dragHistory["G"] == null){
                 dragHistory["G"] = true;
                 let audio = document.createElement("audio");
-                let existAudio = document.querySelectorAll(".audio");
                 audio.className = "audio";
                 audio.innerText = draggable.innerText;
                 draggable.appendChild(audio);
+                //移除和弦按鈕顯現
+                document.getElementById("G").style.display = "initial";
                 playAudio();
             }else if(draggable.innerText == "Am" && dragHistory["Am"] == null){
                 dragHistory["Am"] = true;
                 let audio = document.createElement("audio");
-                let existAudio = document.querySelectorAll(".audio");
                 audio.className = "audio";
                 audio.innerText = draggable.innerText;
                 draggable.appendChild(audio);
+                //移除和弦按鈕顯現
+                document.getElementById("Am").style.display = "initial";
                 playAudio();
             }
-            
+            removeChord();
         });
     });
     container.addEventListener("dragover",(e)=>{
@@ -97,23 +103,56 @@ function dragChord(){
     }
 }
 
+function removeChord(){
+    //移除選定和弦
+    let cancles = document.querySelectorAll(".cancle");
+    cancles.forEach(cancle=>{
+        cancle.addEventListener("click",()=>{
+            let cancleTarget = cancle.id;
+            let elements = document.querySelectorAll(".chord");
+            elements.forEach(element=>{
+                if(element.innerText == cancleTarget){
+                    cancle.style.display = "none";         //將移除按鈕隱藏
+                    //移除audio標籤，將拖曳紀錄改回null
+                    let audios = document.querySelectorAll("audio");
+                    audios.forEach(audio=>{
+                        if(audio.innerText == cancleTarget){
+                            audio.remove();
+                            dragHistory[cancleTarget] = null;
+                        }
+                    });
+                    let chord_container = document.getElementById("choose-chord");
+                    chord_container.appendChild(element);
+                    
+                }
+            });
+        });
+    });
+}
 //播放
 function playAudio(){
     //選擇節奏
-    let tempo = document.querySelectorAll(".tempo");
+    let tempos = document.querySelectorAll(".tempo");
     let tempoType = "Finger1-";
-    tempo.forEach(tempo=>{
+    tempos.forEach(tempo=>{
         tempo.addEventListener("click",()=>{
             if(tempo.innerText == "指法1"){
                 tempoType = "Finger1-";
             }else if(tempo.innerText == "指法2"){
                 tempoType = "Finger2-";
-            }else if(tempo.innerText == "刷法1"){
-                console.log("刷法1")
-            }else if(tempo.innerText == "刷法2"){
-                console.log("刷法2")
+            }else if(tempo.innerText == "指法3"){
+                tempoType = "sweep1-";
+            }else if(tempo.innerText == "指法4"){
+                tempoType = "Country-";
+            }
+            tempo.style.color = "red";
+            for(let i=0;i<tempos.length;i++){
+                if(tempos[i].innerText != tempo.innerText){
+                    tempos[i].style.color = "rgb(94, 91, 91)";
+                }
             }
         });
+        
     });
     //點擊播放
     let playButton = document.querySelector(".play");
@@ -147,17 +186,13 @@ function playAudio(){
         existAudio.forEach(audio=>{
             audio.pause();
             audio.currentTime = 0;
-        })
+        });
     });
-
-    
 }
 //滑鼠移過效果
 function mouseOver(){
-    let key = document.querySelectorAll(".key");
     let chord = document.querySelectorAll(".chord");
     let tempo = document.querySelectorAll(".tempo");
-    mouse(key);
     mouse(chord);
     mouse(tempo);
     function mouse(param){
@@ -170,6 +205,13 @@ function mouseOver(){
             });
         });
     }
+}
+//點擊重整
+function reload(){
+    let refresh = document.getElementById("refresh");
+    refresh.addEventListener("click",()=>{
+        location.reload();
+    });
 }
 //分類標題(四個個頁面都相同)
 function flagClick(){
@@ -199,6 +241,7 @@ let body = document.getElementById("body");
 body.addEventListener("load",init());
 function init(){
     flagClick();            //載入分類標點擊事件
+    reload();
     mouseOver();
     dragChord();            //拖曳和弦
 }

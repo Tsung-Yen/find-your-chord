@@ -199,7 +199,7 @@ function clickFret(){
                         playButton.innerHTML = "播放";
                         playButton.style.background="teal";
                     },1500);
-                },200); 
+                },500); 
             }
         });
     }

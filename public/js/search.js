@@ -167,10 +167,14 @@ function searchBarRecoomand(){
 }
 //分類標題(四個個頁面都相同)
 function flagClick(){
+    let index = document.querySelector(".navbar-header");
     let searchChordPage = document.getElementById("search-chord-page");
     let guitarModel = document.getElementById("guitar-model");
     let chordDictionary = document.getElementById("chord-dictionary");
     let menberSystem = document.getElementById("signing");
+    index.addEventListener("click",()=>{
+        location.href="/";
+    });
     searchChordPage.addEventListener("click",()=>{
         location.href="/search";
     });

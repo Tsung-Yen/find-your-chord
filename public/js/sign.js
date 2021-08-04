@@ -1,4 +1,3 @@
-
 //會員系統
 let signinResult = document.querySelector(".signin_result");
 let signupResult = document.querySelector(".signup_result");
