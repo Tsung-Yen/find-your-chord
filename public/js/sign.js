@@ -3,6 +3,7 @@ let signinResult = document.querySelector(".signin_result");
 let signupResult = document.querySelector(".signup_result");
 let signinBar = document.querySelector(".signinBar");
 let signupBar = document.querySelector(".signupBar");
+
 //(登入)
 function sigInSystem(){
     signinResult.addEventListener("click",()=>{
@@ -64,6 +65,18 @@ function signUpSystem(){
 
     });
 }
+//(檢查使用者狀態)
+function userStatus(){
+    let api = "/status";
+    fetch(api).then((res)=>res.json())
+    .then((result)=>{
+        if(result["ok"] == true){
+            location.href = "/";
+        }else{
+            return;
+        }
+    });
+}
 
 //回到首頁
 function backToIndex(){
@@ -79,4 +92,5 @@ function init(){
     backToIndex();      //回到首頁
     sigInSystem();      //會員系統(登入)
     signUpSystem();     //(註冊)
+    userStatus();       //檢查使用者狀態
 }

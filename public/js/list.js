@@ -23,7 +23,7 @@ function createLabel(){
                     let targetChord = allLink[i].innerText.replace(" 和弦","");
                     targetChord = targetChord.replace("#","sharp").replace("#","sharp")
                     .replace("+","aug").replace("M","maj").replace("M","maj");
-                    location.href = "/search?chord="+targetChord;
+                    location.href = "/?chord="+targetChord;
                 });
             }
         }
@@ -48,15 +48,15 @@ function mouse(p1){
 //分類標題(四個個頁面都相同)
 function flagClick(){
     let index = document.querySelector(".navbar-header");
-    let searchChordPage = document.getElementById("search-chord-page");
+    let createChordPage = document.getElementById("create-chord-page");
     let guitarModel = document.getElementById("guitar-model");
     let chordDictionary = document.getElementById("chord-dictionary");
     let menberSystem = document.getElementById("signing");
     index.addEventListener("click",()=>{
         location.href="/";
     });
-    searchChordPage.addEventListener("click",()=>{
-        location.href="/search";
+    createChordPage.addEventListener("click",()=>{
+        location.href="/melody";
     });
     guitarModel.addEventListener("click",()=>{
         location.href="/model";
@@ -68,7 +68,6 @@ function flagClick(){
         location.href="/sign";
     });
 }
-
 //初始化載入
 let body = document.getElementById("body");
 body.addEventListener("load",init());

@@ -1,10 +1,11 @@
-const e = require("express");
 let express = require("express");
+let cookieParser = require("cookie-parser");
 let app = express();
 app.use(express.static("public"));
 app.use(express.static("file"));
 app.use("/static",express.static("public"));
 app.use(require('body-parser').json());         //解析來自body的response
+app.use(cookieParser("xxx"));
 
 //連接mysql DB
 require("dotenv").config();
@@ -16,14 +17,17 @@ let pool = mysql.createPool({
     database            : process.env["DB_NAME"],
     waitForConnections  : true,
     connectionLimit     : 5
-})
+});
+
+//字典存放使用者名稱key
+let currentUser = {}
 
 app.get("/",(req,res)=>{
     res.render("index");
 });
 
-app.get("/search",(req,res)=>{
-    res.sendFile(__dirname + "/public/search.html");
+app.get("/melody",(req,res)=>{
+    res.sendFile(__dirname + "/public/melody.html");
 });
 
 app.get("/model",(req,res)=>{
@@ -262,7 +266,7 @@ app.all("/api/model",(req,res)=>{
             limitNum = 6;
         }
         pool.getConnection((err,connection)=>{
-            let sql = "select * from model where chord like"+"'"+keyword+"%' limit "+limitNum;
+            let sql = "select * from model where chord like"+"'"+keyword+"%' limit "+limitNum ;
             connection.query(sql,(err,result,fields)=>{
                 if (err) throw err;
                 if(result && result!= ""){
@@ -325,6 +329,24 @@ app.all("/api/model",(req,res)=>{
     }
 });
 
+app.get("/status",(req,res)=>{
+    if(req.method == "GET"){
+        let key = req.signedCookies["key"]; //get cookies keyname key
+        if(currentUser.hasOwnProperty(key)){
+            let name = currentUser[key]["name"];
+            res.send({
+                "ok":true,
+                "message":"已登入",
+            });
+        }else{
+            res.send({
+                "error":true,
+                "message":"尚未登入會員"
+            });
+        }
+    }
+});
+
 app.post("/api/signin",(req,res)=>{
     let data;
     if(req.method == "POST"){
@@ -336,6 +358,24 @@ app.post("/api/signin",(req,res)=>{
                 connection.query(sql,(err,result,fields)=>{
                     if (err) throw err;
                     if(result && result != ""){
+                        let id = result[0]["id"];
+                        let name = result[0]["name"];
+                        let email = result[0]["email"];
+                        let audio = result[0]["audio"];
+                        currentUser[name] = {   //save user information to dict & keyname == name 
+                            "id":id,
+                            "name":name,
+                            "email":email,
+                            "audio":audio
+                        };
+                        res.cookie(    //send key to chrome
+                            "key",name,
+                           {
+                               maxAge:600000,
+                               signed:true,
+                               httpOnly:true
+                            }
+                        );
                         data = {
                             "ok":true,
                             "message":"登入成功"
@@ -378,7 +418,7 @@ app.post("/api/signup",(req,res)=>{
                             "message":"帳號已被註冊"
                         }
                     }else{
-                        sql = "insert into menber(name,email,password,image) values("+"'"+name+"'"+",'"+account+"'"+",'"+password+"',"+"'"+" "+"'"+")";
+                        sql = "insert into menber(name,email,password,audio) values("+"'"+name+"'"+",'"+account+"'"+",'"+password+"',"+"'"+" "+"'"+")";
                         connection.query(sql,(err,result,fields)=>{
                             if (err) throw err; 
                         });
@@ -399,6 +439,26 @@ app.post("/api/signup",(req,res)=>{
             }
             res.send(data);
         }
+    }
+});
+
+app.delete("/signout",(req,res)=>{
+    if(req.method == "DELETE"){
+        let data = null;
+        let key = req.signedCookies["key"];
+        if(currentUser.hasOwnProperty(key)){
+            res.clearCookie("key");
+            data = {
+                "ok":true,
+                "message":"cookie is clear"
+            }
+        }else{
+            data = {
+                "error":true,
+                "message":"未登入會員"
+            }
+        }
+        res.send(data);
     }
 });
 
