@@ -67,7 +67,7 @@ function signUpSystem(){
 }
 //(檢查使用者狀態)
 function userStatus(){
-    let api = "/status";
+    let api = "/api/status";
     fetch(api).then((res)=>res.json())
     .then((result)=>{
         if(result["ok"] == true){

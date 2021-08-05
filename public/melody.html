@@ -57,7 +57,6 @@
                 <div class="play-box">
                     <div class="chord_container" id="chord-container">
                         <p class="glowing">請拖曳和弦到這裡</p>
-                        <div id=audio_container></div>
                     </div>
                     <hr style="background-color: black; height: 1px;">
                     <div class="button-container">
@@ -65,8 +64,20 @@
                         <img class="pause" src="image/outline_pause_black_24dp.png">
                         <img class="save" src="image/outline_save_alt_black_24dp.png">
                     </div>
+                    <p class="save-result">儲存成功!!</p>
+                </div>  
+            </div>
+            <div class="user-audio-history">
+                <p class="history-title">您的檔案如下:</p>
+                <div class="play-history-box">
+                    <p class="history-chord"></p>
+                    <div class="button-container" id="history-play">
+                        <img class="play-history" src="image/outline_play_circle_filled_black_24dp.png">
+                        <img class="pause-history" src="image/outline_pause_black_24dp.png">
+                        <img class="delete-history" src="image/outline_delete_black_24dp.png">
+                    </div>
+                    <div class="history-audio-container"></div>
                 </div>
-                
             </div>
         </div>
         <script src="static/js/melody.js"></script>

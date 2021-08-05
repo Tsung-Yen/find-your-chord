@@ -10,6 +10,7 @@ app.use(cookieParser("xxx"));
 //連接mysql DB
 require("dotenv").config();
 let mysql = require("mysql");
+const e = require("express");
 let pool = mysql.createPool({
     host                : process.env["DB_HOST"],
     user                : process.env["DB_USER"],
@@ -22,30 +23,27 @@ let pool = mysql.createPool({
 //字典存放使用者名稱key
 let currentUser = {}
 
+//render template(以下六個路由)
 app.get("/",(req,res)=>{
     res.render("index");
 });
-
 app.get("/melody",(req,res)=>{
     res.sendFile(__dirname + "/public/melody.html");
 });
-
 app.get("/model",(req,res)=>{
     res.sendFile(__dirname + "/public/model.html");
 });
-
 app.get("/dictionary",(req,res)=>{
     res.sendFile(__dirname + "/public/dictionary.html");
 });
-
 app.get("/list",(req,res)=>{
     res.sendFile(__dirname + "/public/list.html");
 });
-
 app.get("/sign",(req,res)=>{
     res.sendFile(__dirname + "/public/sign.html");
 });
 
+//資料搜尋API(以下四個路由)
 app.get("/api/library/:chord",(req,res)=>{
     //1.取得搜尋和弦(對資料做處理)
     let chord = req.params.chord;
@@ -102,7 +100,6 @@ app.get("/api/library/:chord",(req,res)=>{
         });
     });
 });
-
 app.get("/api/classify/",(req,res)=>{
     let type = req.query["type"];
     let chord = req.query["chord"];
@@ -137,7 +134,6 @@ app.get("/api/classify/",(req,res)=>{
         });
     }
 });
-
 app.get("/api/search",(req,res)=>{
     let jsonData = []
     let tempList = []
@@ -172,7 +168,6 @@ app.get("/api/search",(req,res)=>{
         });
     });
 });
-
 app.all("/api/model",(req,res)=>{
     let keyword = req.query["keyword"];
     let chord = req.query["chord"];
@@ -329,15 +324,40 @@ app.all("/api/model",(req,res)=>{
     }
 });
 
-app.get("/status",(req,res)=>{
+//會員API(以下四個路由)
+app.get("/api/status",(req,res)=>{
     if(req.method == "GET"){
         let key = req.signedCookies["key"]; //get cookies keyname key
         if(currentUser.hasOwnProperty(key)){
-            let name = currentUser[key]["name"];
-            res.send({
-                "ok":true,
-                "message":"已登入",
+            let jsonData = null;
+            pool.getConnection((err,connection)=>{
+                let sql = "select * from menber where id = "+currentUser[key]["id"] +" limit 1";
+                connection.query(sql,(err,result,fields)=>{
+                    if(err) throw err;
+                    if(result && result!=""){
+                        let audio = result[0]["audio"].split(",");
+                        audio.pop()
+                        jsonData = {
+                            "ok":true,
+                            "data":{
+                                "id":result[0]["id"],
+                                "name":result[0]["name"],
+                                "audio":audio,
+                                "type":result[0]["type"]
+                            }
+                        }
+                        connection.release();
+                        res.send(jsonData);
+                    }else{
+                        res.send({
+                            "error":true,
+                            "message":"No Data"
+                        })
+                    }
+                    
+                });
             });
+            
         }else{
             res.send({
                 "error":true,
@@ -346,7 +366,6 @@ app.get("/status",(req,res)=>{
         }
     }
 });
-
 app.post("/api/signin",(req,res)=>{
     let data;
     if(req.method == "POST"){
@@ -362,17 +381,19 @@ app.post("/api/signin",(req,res)=>{
                         let name = result[0]["name"];
                         let email = result[0]["email"];
                         let audio = result[0]["audio"];
+                        let type = result[0]["type"];
                         currentUser[name] = {   //save user information to dict & keyname == name 
                             "id":id,
                             "name":name,
                             "email":email,
-                            "audio":audio
+                            "audio":audio,
+                            "type":type
                         };
                         res.cookie(    //send key to chrome
                             "key",name,
                            {
                                maxAge:600000,
-                               signed:true,
+                               signed:true,     //會將value加密
                                httpOnly:true
                             }
                         );
@@ -400,7 +421,6 @@ app.post("/api/signin",(req,res)=>{
     }   
     
 });
-
 app.post("/api/signup",(req,res)=>{
     let data;
     if(req.method == "POST"){
@@ -418,7 +438,7 @@ app.post("/api/signup",(req,res)=>{
                             "message":"帳號已被註冊"
                         }
                     }else{
-                        sql = "insert into menber(name,email,password,audio) values("+"'"+name+"'"+",'"+account+"'"+",'"+password+"',"+"'"+" "+"'"+")";
+                        sql = "insert into menber(name,email,password,audio,type) values("+"'"+name+"'"+",'"+account+"'"+",'"+password+"',"+"'"+" "+"'"+",'"+" "+"'"+")";
                         connection.query(sql,(err,result,fields)=>{
                             if (err) throw err; 
                         });
@@ -441,8 +461,7 @@ app.post("/api/signup",(req,res)=>{
         }
     }
 });
-
-app.delete("/signout",(req,res)=>{
+app.delete("/api/signout",(req,res)=>{
     if(req.method == "DELETE"){
         let data = null;
         let key = req.signedCookies["key"];
@@ -459,6 +478,58 @@ app.delete("/signout",(req,res)=>{
             }
         }
         res.send(data);
+    }
+});
+
+//儲存會員音檔API
+app.post("/api/saveaudio",(req,res)=>{
+    if(req.method == "POST"){
+        let key = req.signedCookies["key"];
+        if(currentUser.hasOwnProperty(key)){
+            let audios = req.body["audios"];
+            let audiosql = "";
+            audios.forEach(audio=>{
+                audiosql = audiosql+audio+",";
+            });
+            let type = req.body["type"];
+            if(audios && type){
+                pool.getConnection((err,connection)=>{
+                    if(err) throw err;
+                    let sql = "update menber set audio= "+"'"+audiosql+"'"+", type= "+"'"+type+"' where id ="+currentUser[key]["id"];
+                    connection.query(sql,(err,result,fields)=>{
+                        if(err) throw err;
+                    });
+                    connection.release();
+                });
+            }
+            res.send({
+                "ok":true,
+                "message":"save success"
+            });
+        }else{
+            res.send({
+                "error":true,
+                "message":"user signin yet"
+            });
+        }
+    }
+});
+//刪除會員音檔API
+app.delete("/api/deleteaudio",(req,res)=>{
+    if(req.method == "DELETE"){
+        let key = req.signedCookies["key"];
+        if(currentUser.hasOwnProperty(key)){
+            let id = req.body["id"];
+            pool.getConnection((err,connection)=>{
+                let sql = "update menber set audio=' ', type=' ' where id ="+id;
+                connection.query(sql,(err)=>{
+                    if (err) throw err;
+                });
+            });
+            res.send({
+                "ok":true
+            });
+        }
     }
 });
 

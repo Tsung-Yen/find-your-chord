@@ -135,7 +135,6 @@ nav{
 }
 .play-box{
     padding: 20px;
-    border: 1px solid;
     background: #c5c5c5;
 }
 #chord-container{
@@ -176,6 +175,62 @@ nav{
     margin:5px;
 }
 .save{
+    color:white;
+    cursor:pointer;
+    width:25px;
+    height:25px;
+    margin:5px;
+}
+.save-result{
+    display: none;
+    text-indent: 1%;
+    font-size: 15px;
+    font-weight: 800;
+    color: rgb(94, 91, 91);
+}
+
+.user-audio-history{
+    width:auto;
+    padding: 3px;
+}
+.history-title{
+    display: none;
+    text-indent: 1.6%;
+    font-size: 20px;
+    font-weight: 800;
+    color: rgb(94, 91, 91);
+}
+.play-history-box{
+    width:45%;
+    display: flex;
+}
+.history-chord{
+    flex:auto;
+    text-indent: 5%;
+    font-size: 18px;
+    font-weight: 800;
+    color: rgb(94, 91, 91);
+}
+#history-play{
+    flex: none;
+    margin-top: 13px;
+    display: none;
+}
+.play-history{
+    color:white;
+    cursor:pointer;
+    width:25px;
+    height:25px;
+    margin:5px;
+}
+.pause-history{
+    color:white;
+    cursor:pointer;
+    width:25px;
+    height:25px;
+    margin:5px;
+}
+.delete-history{
     color:white;
     cursor:pointer;
     width:25px;
