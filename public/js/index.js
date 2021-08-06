@@ -169,7 +169,7 @@ function searchBarRecoomand(){
 }
 //(檢查使用者狀態)
 function userStatus(){
-    let api = "/status";
+    let api = "/api/status";
     fetch(api).then((res)=>res.json())
     .then((result)=>{
         if(result["ok"] == true){
@@ -191,10 +191,9 @@ function userStatus(){
 function userSignOut(){
     let signout = document.getElementById("signout");
     signout.addEventListener("click",()=>{
-        let api = "/signout";
+        let api = "/api/signout";
         fetch(api,{method:"DELETE"})
         .then((res)=>res.json()).then((result)=>{
-            console.log(result);
             setTimeout(()=>{
                 location.reload();
             },600)

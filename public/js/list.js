@@ -45,6 +45,42 @@ function mouse(p1){
         p1.style.color = "black";
     });
 }
+//檢查會員狀態
+function userStatus(){
+    let api_url = "/api/status";
+    fetch(api_url).then((res)=>res.json())
+    .then((result)=>{
+        if(result["ok"] == true){
+            let sign = document.getElementById("signing");
+            sign.remove();
+            let newSign = document.createElement("div");
+            newSign.className = "sign";
+            newSign.id = "signout";
+            newSign.innerText = "登出系統";
+            let navBar = document.getElementById("navbar");
+            navBar.append(newSign);
+            signOut();
+        }else{
+            return;
+        }
+    });
+}
+//(登出)
+function signOut(){
+    let api_url = "/api/signout";
+    let signout = document.getElementById("signout");
+    signout.addEventListener("click",()=>{
+        fetch(api_url,{method:"DELETE"})
+        .then((res)=>res.json()).then((result)=>{
+            if(result["ok"] == true){
+                setTimeout(()=>{
+                    location.reload();
+                },600);
+            }
+        });
+    });
+}
+
 //分類標題(四個個頁面都相同)
 function flagClick(){
     let index = document.querySelector(".navbar-header");
@@ -75,4 +111,5 @@ function init(){
     flagClick();            //載入分類標點擊事件
     createLabel();          //新增使用者選擇類別的和弦內容
     backToDict()            //回到分類頁面
+    userStatus();
 }
