@@ -329,35 +329,10 @@ app.get("/api/status",(req,res)=>{
     if(req.method == "GET"){
         let key = req.signedCookies["key"]; //get cookies keyname key
         if(currentUser.hasOwnProperty(key)){
-            let jsonData = null;
-            pool.getConnection((err,connection)=>{
-                let sql = "select * from menber where id = "+currentUser[key]["id"] +" limit 1";
-                connection.query(sql,(err,result,fields)=>{
-                    if(err) throw err;
-                    if(result && result!=""){
-                        let audio = result[0]["audio"].split(",");
-                        audio.pop()
-                        jsonData = {
-                            "ok":true,
-                            "data":{
-                                "id":result[0]["id"],
-                                "name":result[0]["name"],
-                                "audio":audio,
-                                "type":result[0]["type"]
-                            }
-                        }
-                        connection.release();
-                        res.send(jsonData);
-                    }else{
-                        res.send({
-                            "error":true,
-                            "message":"No Data"
-                        })
-                    }
-                    
-                });
+            res.send({
+                "ok":true,
+                "message":"已登入",
             });
-            
         }else{
             res.send({
                 "error":true,
@@ -380,14 +355,10 @@ app.post("/api/signin",(req,res)=>{
                         let id = result[0]["id"];
                         let name = result[0]["name"];
                         let email = result[0]["email"];
-                        let audio = result[0]["audio"];
-                        let type = result[0]["type"];
                         currentUser[name] = {   //save user information to dict & keyname == name 
                             "id":id,
                             "name":name,
-                            "email":email,
-                            "audio":audio,
-                            "type":type
+                            "email":email
                         };
                         res.cookie(    //send key to chrome
                             "key",name,
@@ -434,11 +405,11 @@ app.post("/api/signup",(req,res)=>{
                     if (err) throw err;
                     if(result && result != ""){
                         data = {
-                            "err":true,
+                            "error":true,
                             "message":"帳號已被註冊"
                         }
                     }else{
-                        sql = "insert into menber(name,email,password,audio,type) values("+"'"+name+"'"+",'"+account+"'"+",'"+password+"',"+"'"+" "+"'"+",'"+" "+"'"+")";
+                        sql = "insert into menber(name,email,password) values("+"'"+name+"'"+",'"+account+"'"+",'"+password+"'"+")";
                         connection.query(sql,(err,result,fields)=>{
                             if (err) throw err; 
                         });
@@ -484,6 +455,7 @@ app.delete("/api/signout",(req,res)=>{
 //儲存會員音檔API
 app.post("/api/saveaudio",(req,res)=>{
     if(req.method == "POST"){
+        let jsonData = null;
         let key = req.signedCookies["key"];
         if(currentUser.hasOwnProperty(key)){
             let audios = req.body["audios"];
@@ -494,18 +466,34 @@ app.post("/api/saveaudio",(req,res)=>{
             let type = req.body["type"];
             if(audios && type){
                 pool.getConnection((err,connection)=>{
-                    if(err) throw err;
-                    let sql = "update menber set audio= "+"'"+audiosql+"'"+", type= "+"'"+type+"' where id ="+currentUser[key]["id"];
+                    let  ap = "'";
+                    let sql = "select * from menberaudio where username= "+ap+currentUser[key]["name"]+ap+" and chords= "+ap+audiosql+ap+" and type= "+ap+type+ap;
                     connection.query(sql,(err,result,fields)=>{
                         if(err) throw err;
+                        if(result && result!=""){
+                            jsonData = {
+                                "ok":true,
+                                "message":"exist"
+                            }
+                            connection.release();
+                            res.send(jsonData);
+                        }
+                        else{
+                            sql = "insert into menberaudio(username,chords,type) values("+ap+currentUser[key]["name"]+ap+","+ap+audiosql+ap+","+ap+type+ap+")";
+                            connection.query(sql,(err,result)=>{
+                                if (err) throw err;
+                            });
+                            connection.release();
+                            jsonData = {
+                                "ok":true,
+                                "message":"insert success"
+                            }
+                            res.send(jsonData);
+                        }
                     });
-                    connection.release();
+                    
                 });
             }
-            res.send({
-                "ok":true,
-                "message":"save success"
-            });
         }else{
             res.send({
                 "error":true,
@@ -518,20 +506,75 @@ app.post("/api/saveaudio",(req,res)=>{
 app.delete("/api/deleteaudio",(req,res)=>{
     if(req.method == "DELETE"){
         let key = req.signedCookies["key"];
+        let audios = req.body["audios"];
+        let audiosql = "";
+        audios.forEach(audio=>{
+            audiosql = audiosql+audio+",";
+        });
+        let type = req.body["type"];
         if(currentUser.hasOwnProperty(key)){
-            let id = req.body["id"];
+            let ap = "'";
             pool.getConnection((err,connection)=>{
-                let sql = "update menber set audio=' ', type=' ' where id ="+id;
-                connection.query(sql,(err)=>{
+                let sql = "delete from menberaudio where username="+ap+currentUser[key]["name"]+ap+" and chords="+ap+audiosql+ap+" and type="+ap+type+ap;
+                connection.query(sql,(err,result)=>{
                     if (err) throw err;
                 });
+                connection.release();
             });
             res.send({
                 "ok":true
             });
         }
+    }else{
+        res.send({
+            "error":true,
+            "message":"server error"
+        });
     }
 });
+//會員音檔紀錄API
+app.get("/api/menberaudio",(req,res)=>{
+    if(req.method == "GET"){
+        let key = req.signedCookies["key"];
+        if(currentUser.hasOwnProperty(key)){
+            let username = currentUser[key]["name"];
+            pool.getConnection((err,connection)=>{
+                let sql = "select * from menberaudio where username="+"'"+username+"'";
+                connection.query(sql,(err,result,fields)=>{
+                    let jsonData={
+                        "name":currentUser[key]["name"],
+                        "data":[]
+                    };
+                    if (err) throw err;
+                    if(result && result!=""){
+                        result.forEach(data=>{
+                            let chord = data["chords"].split(",");
+                            chord.pop();
+                            let listData = {
+                                "chords":chord,
+                                "type":data["type"]
+                            }
+                            jsonData["data"].push(listData);
+                            jsonData["ok"] = true;
+                        });
+                    }else{
+                        jsonData = {
+                            "error":true,
+                            "message":"empty"
+                        }
+                    }
+                    connection.release();
+                    res.send(jsonData);
+                });
+            });
+        }else{
+            res.send({
+                "error":true,
+                "message":"user sign yet"
+            })
+        }
+    }
+})
 
 app.listen(8000,()=>{
     console.log("Server Started");

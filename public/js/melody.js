@@ -237,12 +237,22 @@ function saveAudio(){
             },body:JSON.stringify(data)}).then((res)=>res.json())
             .then((result)=>{
                 if(result["ok"] == true){
-                    let saveResult = document.querySelector(".save-result");
-                    saveResult.style.display = "block";
-                    setTimeout(()=>{
-                        //寫入資料庫後重整
-                        location.reload();
-                    },2200);
+                    if(result["message"] == "insert success"){
+                        let saveResult = document.querySelector(".save-result");
+                        saveResult.style.display = "block";
+                        saveResult.innerText = "儲存成功";
+                        setTimeout(()=>{
+                            //寫入資料庫後重整
+                            location.reload();
+                        },2200);
+                    }else{
+                        let saveResult = document.querySelector(".save-result");
+                        saveResult.style.display = "block";
+                        saveResult.innerText = "此排列已存在";
+                        setTimeout(()=>{
+                            saveResult.style.display = "none";
+                        },2200);
+                    }
                 }else {
                     location.href = "/sign";
                 }
@@ -250,12 +260,99 @@ function saveAudio(){
         }else{
             alert("請將和弦拖曳至表格")
         }
-        
-
-
     });
 }
+//秀出使用者存檔紀錄
+function historyAudio(){
+    let api_url = "/api/menberaudio";
+    fetch(api_url).then((res)=>res.json()).then((result)=>{
+        if(result["ok"] == true){
+            document.querySelector(".history-title").style.display = "block";
+            let history_container = document.querySelector(".user-audio-history");
+            for(let i=result["data"].length-1;i>=0;i--){
+                let box = document.createElement("div");                //single history container
+                box.className = "play-history-box";
+                let boxTitle = document.createElement("p");             //history title
+                boxTitle.className = "history-chord";
+                boxTitle.innerText = (i+1).toString()+". "+result["data"][i]["chords"];
+                let buttonContainer = document.createElement("div");    //buttons container
+                buttonContainer.className = "history-button-container";
+                let playImage = document.createElement("img");          //play button
+                playImage.className = "play-history";
+                playImage.src = "image/outline_play_circle_filled_black_24dp.png";
+                let pauseImage = document.createElement("img");        //pause button
+                pauseImage.className = "pause-history";
+                pauseImage.src = "image/outline_pause_black_24dp.png";
+                let deleteImage = document.createElement("img");       //delete button
+                deleteImage.className = "delete-history";
+                deleteImage.src = "image/outline_delete_black_24dp.png";
+                let audioContainer = document.createElement("div");    //audio container
+                result["data"][i]["chords"].forEach(audio=>{
+                    let audioTag = document.createElement("audio");
+                    let url = "https://yanyanbucket.s3.ap-northeast-2.amazonaws.com/";
+                    audioTag.src = url+result["data"][i]["type"]+"-"+audio+".m4a";
+                    audioTag.className = "history-audio"+i.toString();
+                    audioContainer.appendChild(audioTag)
+                });
+                box.appendChild(boxTitle);
+                box.appendChild(buttonContainer);
+                box.appendChild(audioContainer);
+                buttonContainer.appendChild(playImage);
+                buttonContainer.appendChild(pauseImage);
+                buttonContainer.appendChild(deleteImage);
+                history_container.appendChild(box);
+                //play history audio
+                playImage.addEventListener("click",()=>{
+                    let audios = document.querySelectorAll(".history-audio"+i.toString());
+                    for(let x=0;x<audios.length;x++){
+                        audios[0].play();
+                        audios[x].onended = ()=>{
+                            let nextAudio = audios[x+1];
+                            if(nextAudio!=null){
+                                nextAudio.play();
+                            }else return;
+                        }
+                    }
+                });
+                //pause history audio
+                pauseImage.addEventListener("click",()=>{
+                    let audios = document.querySelectorAll(".history-audio"+i.toString());
+                    for(let y=0;y<audios.length;y++){
+                        audios[y].pause();
+                        audios[y].currentTime = 0;
+                    }
+                });
+                //delete history audio
+                deleteImage.addEventListener("click",()=>{
+                    let api_url = "/api/deleteaudio";
+                    let data = {
+                        "audios":result["data"][i]["chords"],
+                        "type":result["data"][i]["type"]
+                    }
+                    fetch(api_url,{method:"DELETE",headers:{
+                        "Content-Type":"application/json"
+                    },body:JSON.stringify(data)}).then((res)=>res.json())
+                    .then((result)=>{
+                        if(result["ok"]==true){
+                            alert("刪除成功!!");
+                            setTimeout(()=>{
+                                location.reload();
+                            },500)
+                        }else return;
+                    });
+                });
+            }
+        }else if(result["error"] == true && result["message"] == "empty"){
+            document.querySelector(".history-title").style.display = "block";
+            let empty = document.querySelector(".empty");
+            empty.style.display = "block";
+        }
+    });
+    
 
+    
+    
+}
 //(檢查使用者狀態)
 function userStatus(){
     let api = "/api/status";
@@ -271,76 +368,6 @@ function userStatus(){
             let navBar = document.getElementById("navbar");
             navBar.append(newSign);
             userSignOut();
-            //如果使用者曾經編輯且儲存和弦將其拉出
-            let historyChord = document.querySelector(".history-chord");
-            if(result["data"]["audio"]!= " " && result["data"]["type"]!=" "){
-                let string = "";
-                result["data"]["audio"].forEach(audio=>{
-                    string = string+audio+" ";
-                });
-                let historyTitle = document.querySelector(".history-title");
-                historyTitle.style.display = "block";
-                historyChord.innerText = "和弦紀錄 ： "+string;
-                let buttons = document.getElementById("history-play");
-                buttons.style.display = "block";
-                //播放按鈕
-                let playAudio = document.querySelector(".play-history");
-                playAudio.addEventListener("click",()=>{
-                    let audio_container = document.querySelector(".history-audio-container");
-                    result["data"]["audio"].forEach(audio=>{
-                        let audioTag = document.createElement("audio");
-                        let url = "https://yanyanbucket.s3.ap-northeast-2.amazonaws.com/";
-                        audioTag.src = url+result["data"]["type"]+"-"+audio+".m4a";
-                        audioTag.className = "history-audio";
-                        audio_container.appendChild(audioTag);
-                    });
-                    //播放
-                    let audioTags = document.querySelectorAll(".history-audio");
-                    setTimeout(()=>{
-                        for(let i=0;i<audioTags.length;i++){
-                            audioTags[0].play();
-                            audioTags[i].onended = ()=>{
-                                let nextElement = audioTags[i+1];
-                                if(nextElement != null){
-                                    nextElement.play();
-                                }else return;
-                            }
-                        }
-                    },1000);
-                });
-                //暫停按鈕
-                let pauseButton = document.querySelector(".pause-history");
-                pauseButton.addEventListener("click",()=>{
-                    let audioTags = document.querySelectorAll(".history-audio");
-                    audioTags.forEach(audio=>{
-                        audio.pause();
-                        audio.currentTime = 0;
-                    });
-                });
-                //刪除音檔按鈕
-                let deleteButton = document.querySelector(".delete-history");
-                deleteButton.addEventListener("click",()=>{
-                    let api_url = "/api/deleteaudio";
-                    let id = result["data"]["id"];
-                    let data = {
-                        "id":id
-                    }
-                    fetch(api_url,{method:"DELETE",headers:{
-                        "Content-Type":"application/json"
-                    },body:JSON.stringify(data)})
-                    .then((res)=>res.json()).then((result)=>{
-                        if(result["ok"] == true){
-                            setTimeout(()=>{
-                                location.reload();
-                            },500)
-                        }else return;
-                    });
-                });
-            }else{
-                let historyTitle = document.querySelector(".history-title");
-                historyTitle.style.display = "block";
-                historyChord.innerText = "沒有紀錄";
-            }
         }else{
             return;
         }
@@ -393,4 +420,5 @@ function init(){
     dragChord();            //拖曳和弦
     userStatus();
     saveAudio();
+    historyAudio();
 }

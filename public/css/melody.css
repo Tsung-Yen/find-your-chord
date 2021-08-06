@@ -203,6 +203,8 @@ nav{
 .play-history-box{
     width:45%;
     display: flex;
+    background-color: #e3e6e7;
+    margin-top: 20px;
 }
 .history-chord{
     flex:auto;
@@ -211,10 +213,10 @@ nav{
     font-weight: 800;
     color: rgb(94, 91, 91);
 }
-#history-play{
+.history-button-container{
     flex: none;
-    margin-top: 13px;
-    display: none;
+    margin-top: 5px;
+    /* display: none; */
 }
 .play-history{
     color:white;
@@ -236,4 +238,11 @@ nav{
     width:25px;
     height:25px;
     margin:5px;
+}
+.empty{
+    display: none;
+    text-indent: 5%;
+    font-size: 18px;
+    font-weight: 800;
+    color: rgb(94, 91, 91);
 }
