@@ -232,7 +232,7 @@ function saveAudio(){
             data["audios"].push(audio.innerText);
         });
         if(audios[0] != undefined){ //檢查資料是否為正確填寫
-            fetch("/api/saveaudio",{method:"POST",headers:{
+            fetch("/api/audio",{method:"POST",headers:{
                 "Content-Type":"application/json"
             },body:JSON.stringify(data)}).then((res)=>res.json())
             .then((result)=>{
@@ -264,7 +264,7 @@ function saveAudio(){
 }
 //秀出使用者存檔紀錄
 function historyAudio(){
-    let api_url = "/api/menberaudio";
+    let api_url = "/api/audio";
     fetch(api_url).then((res)=>res.json()).then((result)=>{
         if(result["ok"] == true){
             document.querySelector(".history-title").style.display = "block";
@@ -324,7 +324,7 @@ function historyAudio(){
                 });
                 //delete history audio
                 deleteImage.addEventListener("click",()=>{
-                    let api_url = "/api/deleteaudio";
+                    let api_url = "/api/audio";
                     let data = {
                         "audios":result["data"][i]["chords"],
                         "type":result["data"][i]["type"]
