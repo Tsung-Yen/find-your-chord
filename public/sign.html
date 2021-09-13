@@ -3,6 +3,7 @@
     <head>
         <title>登入會員</title>
         <link rel="stylesheet" href="static/css/sign.css" type="text/css">
+        <meta name="google-signin-client_id" content="1052009422930-g6kt4q52n7q6u2g4rqq25sooefktn7j1.apps.googleusercontent.com">
     </head>
     <body id="body"> 
         <nav>
@@ -17,6 +18,7 @@
                         <input class="menber_input" id="signin_password" type="password" placeholder="請輸入密碼">
                         <button class="allbutton" id="signin_button" type="submit">登入</button>
                     </form>
+                    <div class="g-signin2" data-width="448" data-height="43" data-longtitle="true"></div>
                     <div class="signin_result">點此註冊會員</div>
                 </div>
                 <div class="signupBar">
@@ -32,5 +34,6 @@
             </div>
         </div>
         <script src="static/js/sign.js"></script>
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
     </body>
 </html>
